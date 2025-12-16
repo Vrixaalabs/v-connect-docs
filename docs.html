@@ -1,0 +1,1496 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>GraphQL API Reference</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <!-- Top header -->
+    <header class="topbar">
+      <div class="topbar__left">
+        <button class="iconbtn topbar__burger" id="burger" aria-label="Toggle navigation">
+          <span class="burger"><span></span></span>
+        </button>
+
+        <a class="brand" href="#">
+          <span class="brand__mark" aria-hidden="true">▦</span>
+          <span class="brand__name">VrixaaLabs</span>
+          <span class="brand__sub">API Docs</span>
+        </a>
+
+        <div class="envpill" title="Environment">
+          <span class="dot"></span> Test mode
+        </div>
+      </div>
+
+      <div class="topbar__right">
+        <div class="search">
+          <span class="search__icon" aria-hidden="true">⌘K</span>
+          <input id="search" type="search" placeholder="Search…" autocomplete="off" />
+        </div>
+
+        <a class="toplink" href="#schema-overview">Schema</a>
+        <a class="toplink" href="#operations">Operations</a>
+        <a class="toplink" href="#alumni">Alumni</a>
+      </div>
+    </header>
+
+    <!-- App shell -->
+    <div class="shell">
+      <!-- Left nav -->
+      <aside class="sidebar" id="sidebar" aria-label="Primary">
+        <div class="sidebar__inner">
+          <div class="sidebar__section">
+            <div class="sidebar__title">Overview</div>
+            <a class="navlink is-active" href="#intro">GraphQL API</a>
+            <a class="navlink" href="#schema-overview">Schema overview</a>
+            <a class="navlink" href="#how-its-built">How it’s built</a>
+            <a class="navlink" href="#operations">Operations</a>
+            <a class="navlink" href="#missing-types">Missing types</a>
+          </div>
+
+          <div class="sidebar__section">
+            <div class="sidebar__title">Operations</div>
+            <a class="navlink" href="#query-root">Query root</a>
+            <a class="navlink" href="#mutation-root">Mutation root</a>
+            <a class="navlink" href="#subscription-root">Subscription root</a>
+          </div>
+
+          <div class="sidebar__section">
+            <div class="sidebar__title">Modules</div>
+<details class="navgroup" open>
+  <summary class="navgroup__summary">Core</summary>
+  <div class="navgroup__items">
+    <a class="navlink" href="#global">global</a>
+    <a class="navlink" href="#address">address</a>
+    <a class="navlink" href="#common">common</a>
+  </div>
+</details>
+
+<details class="navgroup" open>
+  <summary class="navgroup__summary">People</summary>
+  <div class="navgroup__items">
+    <a class="navlink" href="#user">user</a>
+    <a class="navlink" href="#alumni">alumni</a>
+    <a class="navlink" href="#connections">connections</a>
+  </div>
+</details>
+
+<details class="navgroup" open>
+  <summary class="navgroup__summary">Organizations</summary>
+  <div class="navgroup__items">
+    <a class="navlink" href="#admin">admin</a>
+    <a class="navlink" href="#entity">entity</a>
+    <a class="navlink" href="#entity-invites">entity-invites</a>
+    <a class="navlink" href="#network">network</a>
+    <a class="navlink" href="#network-admin">network-admin</a>
+    <a class="navlink" href="#network-invites">network-invites</a>
+    <a class="navlink" href="#super-admin">super-admin</a>
+  </div>
+</details>
+
+<details class="navgroup" open>
+  <summary class="navgroup__summary">Messaging</summary>
+  <div class="navgroup__items">
+    <a class="navlink" href="#messages">messages</a>
+    <a class="navlink" href="#group-chat">group-chat</a>
+    <a class="navlink" href="#entity-chat">entity-chat</a>
+  </div>
+</details>
+
+<details class="navgroup" open>
+  <summary class="navgroup__summary">Events & Logs</summary>
+  <div class="navgroup__items">
+    <a class="navlink" href="#events-log">events-log</a>
+    <a class="navlink" href="#events">events</a>
+  </div>
+</details>
+
+<details class="navgroup">
+  <summary class="navgroup__summary">Server-side</summary>
+  <div class="navgroup__items">
+    <a class="navlink" href="#server-side-models">verification & invites</a>
+  </div>
+</details>
+          </div>
+
+          <div class="sidebar__footer">
+            <div class="hint">Tip: Use <kbd>⌘</kbd><kbd>K</kbd> to search</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main content -->
+      <main class="content" id="content">
+        <article class="doc">
+          <!-- Intro -->
+          <section class="doc__section" id="intro">
+            <h1 class="h1">GraphQL API Reference</h1>
+            <p class="lead">
+              A docs-style reference layout (left navigation, main content, right “On this page”), adapted for your GraphQL schema modules.
+            </p>
+
+            <div class="callout">
+              <div class="callout__title">GraphQL Endpoint</div>
+              <pre class="code"><code>POST https://api.example.com/graphql</code></pre>
+            </div>
+
+            <div class="grid2">
+              <div class="card">
+                <div class="card__title">Authentication</div>
+                <p>Send your token via <code>Authorization: Bearer &lt;token&gt;</code>.</p>
+              </div>
+              <div class="card">
+                <div class="card__title">Requests</div>
+                <p>All operations use JSON: <code>{ "query": "...", "variables": {...} }</code>.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Schema overview -->
+          <section class="doc__section" id="schema-overview">
+            <h2 class="h2">Schema overview</h2>
+            <p class="muted">
+              Root types exist with placeholder fields, then modules extend them using <code>extend type Query</code>, etc.
+            </p>
+
+            <pre class="code"><code>type Query { _empty: String }
+type Mutation { _empty: String }
+type Subscription { _empty: String }</code></pre>
+          </section>
+
+          <!-- How it’s built -->
+          <section class="doc__section" id="how-its-built">
+            <h2 class="h2">How it’s built</h2>
+            <p>
+              Modules contribute SDL (<code>gql`...`</code>) and resolver maps. The server merges them into one executable schema.
+            </p>
+
+            <div class="twoCol">
+              <div>
+                <h4 class="h4">Example request</h4>
+                <pre class="code"><code>curl https://api.example.com/graphql \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer &lt;token&gt;" \
+  -d '{"query":"query { __typename }"}'</code></pre>
+              </div>
+
+              <div class="codepane compact">
+                <div class="codepane__top">
+                  <span class="pill">Tip</span>
+                </div>
+                <pre class="code"><code>Avoid SDL collisions:
+- Don’t define the same type name in multiple modules
+- Prefer: extend type User { ... } if adding fields</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <!-- Operations -->
+          <section class="doc__section" id="operations">
+            <h2 class="h2">Operations</h2>
+            <p class="muted">High-level docs for root types.</p>
+          </section>
+
+          <!-- Query root -->
+          <section class="doc__section" id="query-root">
+            <div class="endpoint">
+              <div class="method method--get">QUERY</div>
+              <div class="path">Query</div>
+              <div class="spacer"></div>
+              <button class="iconbtn copybtn" data-copy="type Query { ... }" aria-label="Copy">Copy</button>
+            </div>
+
+            <p class="muted">
+              Queries are added via <code>extend type Query</code> from modules (ex: alumni, messages, group-chat, organization).
+            </p>
+          </section>
+
+          <!-- Mutation root -->
+          <section class="doc__section" id="mutation-root">
+            <div class="endpoint">
+              <div class="method method--post">MUTATION</div>
+              <div class="path">Mutation</div>
+              <div class="spacer"></div>
+              <button class="iconbtn copybtn" data-copy="type Mutation { ... }" aria-label="Copy">Copy</button>
+            </div>
+
+            <p class="muted">
+              Mutations are added via <code>extend type Mutation</code> from modules (ex: alumni auth, group messaging actions, org role assignments).
+            </p>
+          </section>
+
+          <!-- Subscription root -->
+          <section class="doc__section" id="subscription-root">
+            <div class="endpoint">
+              <div class="method">SUB</div>
+              <div class="path">Subscription</div>
+              <div class="spacer"></div>
+              <button class="iconbtn copybtn" data-copy="type Subscription { ... }" aria-label="Copy">Copy</button>
+            </div>
+
+            <p class="muted">
+              Subscriptions (if any) are added via <code>extend type Subscription</code> (ex: messages + group-chat).
+            </p>
+          </section>
+
+          <!-- Missing referenced types -->
+          <section class="doc__section" id="missing-types">
+            <h2 class="h2">Missing types referenced by modules</h2>
+            <div class="callout callout--warn">
+              <div class="callout__title">These must exist somewhere in your schema</div>
+              <p class="muted" style="margin:0;">
+                <code>DateTime</code>, <code>JSON</code>, <code>PageInfo</code>, <code>AddressType</code>, <code>Map</code>, <code>Address</code>, <code>Entity</code>, <code>Network</code>, <code>MessageType</code>, <code>MessageStatus</code>, <code>Mention</code>, <code>Poll</code>, <code>ForwardedMessage</code>, <code>ReadReceipt</code>, <code>UserTypingEvent</code>, <code>CreatePollInput</code>
+              </p>
+            </div>
+          </section>
+
+          <!-- User module placeholder -->
+          <section class="doc__section" id="user">
+            <div class="sectionhead">
+              <h2 class="h2">user</h2>
+              <p class="muted">Paste your actual <code>userTypes</code> SDL to generate full docs like the sections below.</p>
+            </div>
+
+            <div class="callout callout--warn">
+              <div class="callout__title">Waiting for userTypes SDL</div>
+              <p class="muted" style="margin:0;">
+                I didn’t receive your <code>userTypes = gql`...`</code> in the latest snippets, so this is a placeholder.
+              </p>
+            </div>
+          </section>
+
+          <!-- Alumni module -->
+          <section class="doc__section" id="alumni">
+            <div class="sectionhead">
+              <h2 class="h2">alumni</h2>
+              <p class="muted">User auth & profile, AMA sessions, jobs/internships.</p>
+            </div>
+
+            <div class="split">
+              <div>
+                <h3 class="h3">User</h3>
+                <p class="muted">Alumni module User type.</p>
+
+                <div class="props">
+                  <div class="props__row"><div class="props__key">_id</div><div class="props__type">ID!</div><div class="props__desc">Database identifier.</div></div>
+                  <div class="props__row"><div class="props__key">userId</div><div class="props__type">String!</div><div class="props__desc">Public user ID.</div></div>
+                  <div class="props__row"><div class="props__key">firstName</div><div class="props__type">String</div><div class="props__desc">Optional first name.</div></div>
+                  <div class="props__row"><div class="props__key">lastName</div><div class="props__type">String</div><div class="props__desc">Optional last name.</div></div>
+                  <div class="props__row"><div class="props__key">username</div><div class="props__type">String!</div><div class="props__desc">Unique username.</div></div>
+                  <div class="props__row"><div class="props__key">email</div><div class="props__type">String!</div><div class="props__desc">Email address.</div></div>
+                  <div class="props__row"><div class="props__key">createdAt</div><div class="props__type">String!</div><div class="props__desc">Created timestamp.</div></div>
+                  <div class="props__row"><div class="props__key">updatedAt</div><div class="props__type">String!</div><div class="props__desc">Updated timestamp.</div></div>
+                </div>
+
+                <h3 class="h3" style="margin-top:14px;">AMASession</h3>
+                <div class="props">
+                  <div class="props__row"><div class="props__key">_id</div><div class="props__type">ID!</div><div class="props__desc">Session id.</div></div>
+                  <div class="props__row"><div class="props__key">title</div><div class="props__type">String!</div><div class="props__desc">Session title.</div></div>
+                  <div class="props__row"><div class="props__key">description</div><div class="props__type">String</div><div class="props__desc">Optional description.</div></div>
+                  <div class="props__row"><div class="props__key">host</div><div class="props__type">User!</div><div class="props__desc">Host user.</div></div>
+                  <div class="props__row"><div class="props__key">scheduledAt</div><div class="props__type">String!</div><div class="props__desc">Scheduled time.</div></div>
+                  <div class="props__row"><div class="props__key">active</div><div class="props__type">Boolean!</div><div class="props__desc">Active flag.</div></div>
+                  <div class="props__row"><div class="props__key">createdAt</div><div class="props__type">String</div><div class="props__desc">Created time.</div></div>
+                  <div class="props__row"><div class="props__key">updatedAt</div><div class="props__type">String</div><div class="props__desc">Updated time.</div></div>
+                </div>
+
+                <h3 class="h3" style="margin-top:14px;">JobAndInternship</h3>
+                <div class="props">
+                  <div class="props__row"><div class="props__key">_id</div><div class="props__type">ID!</div><div class="props__desc">Job/internship id.</div></div>
+                  <div class="props__row"><div class="props__key">title</div><div class="props__type">String!</div><div class="props__desc">Title.</div></div>
+                  <div class="props__row"><div class="props__key">organization</div><div class="props__type">String!</div><div class="props__desc">Organization name.</div></div>
+                  <div class="props__row"><div class="props__key">description</div><div class="props__type">String</div><div class="props__desc">Optional description.</div></div>
+                  <div class="props__row"><div class="props__key">role</div><div class="props__type">String!</div><div class="props__desc">Role.</div></div>
+                  <div class="props__row"><div class="props__key">link</div><div class="props__type">String!</div><div class="props__desc">Apply link.</div></div>
+                  <div class="props__row"><div class="props__key">active</div><div class="props__type">Boolean!</div><div class="props__desc">Active flag.</div></div>
+                  <div class="props__row"><div class="props__key">createdAt</div><div class="props__type">String!</div><div class="props__desc">Created time.</div></div>
+                  <div class="props__row"><div class="props__key">updatedAt</div><div class="props__type">String!</div><div class="props__desc">Updated time.</div></div>
+                </div>
+              </div>
+
+              <div class="codepane">
+                <div class="codepane__tabs">
+                  <button class="tab is-active" data-lang="graphql">GraphQL</button>
+                  <button class="tab" data-lang="curl">cURL</button>
+                  <button class="tab" data-lang="node">Node</button>
+                </div>
+
+                <div class="codepane__body">
+                  <pre class="code codepane__code" data-code="graphql"><code>mutation Login($email: String!, $password: String!) {
+  login(email: $email, password: $password) {
+    token
+    user {
+      _id
+      userId
+      username
+      email
+      firstName
+      lastName
+    }
+  }
+}</code></pre>
+
+                  <pre class="code codepane__code is-hidden" data-code="curl"><code>curl https://api.example.com/graphql \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query":"mutation Login($email:String!,$password:String!){ login(email:$email,password:$password){ token user{ _id userId username email } } }",
+    "variables": { "email":"ava@example.com", "password":"secret" }
+  }'</code></pre>
+
+                  <pre class="code codepane__code is-hidden" data-code="node"><code>const res = await fetch("https://api.example.com/graphql", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    query: `mutation Login($email:String!,$password:String!){
+      login(email:$email,password:$password){
+        token
+        user{ _id userId username email }
+      }
+    }`,
+    variables: { email: "ava@example.com", password: "secret" },
+  }),
+});
+
+console.log(await res.json());</code></pre>
+                </div>
+              </div>
+            </div>
+
+            <h3 class="h3" style="margin-top:16px;">Queries</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">me</div><div class="params__meta"><span class="badge">Query</span> User</div><div class="params__desc">Returns current user (nullable).</div></div>
+              <div class="params__row"><div class="params__name">user</div><div class="params__meta"><span class="badge">Query</span> User</div><div class="params__desc">Args: <code>id: ID!</code></div></div>
+              <div class="params__row"><div class="params__name">users</div><div class="params__meta"><span class="badge">Query</span> [User!]</div><div class="params__desc">Args: <code>graduationYear: Int</code>, <code>department: String</code></div></div>
+              <div class="params__row"><div class="params__name">amaSessions</div><div class="params__meta"><span class="badge">Query</span> [AMASession!]</div><div class="params__desc">Args: <code>active: Boolean</code></div></div>
+              <div class="params__row"><div class="params__name">amaSession</div><div class="params__meta"><span class="badge">Query</span> AMASession</div><div class="params__desc">Args: <code>id: ID!</code></div></div>
+              <div class="params__row"><div class="params__name">getMockAuthToken</div><div class="params__meta"><span class="badge">Query</span> MockTokenResponse</div><div class="params__desc">Args: <code>userId: String!</code></div></div>
+              <div class="params__row"><div class="params__name">getJobInternship</div><div class="params__meta"><span class="badge">Query</span> [JobAndInternship!]</div><div class="params__desc">Args: <code>active: Boolean!</code></div></div>
+              <div class="params__row"><div class="params__name">getSingleJobInternship</div><div class="params__meta"><span class="badge">Query</span> JobAndInternship!</div><div class="params__desc">Args: <code>_id: ID!</code></div></div>
+            </div>
+
+            <h3 class="h3" style="margin-top:16px;">Mutations</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">register</div><div class="params__meta"><span class="badge">Mutation</span> AuthPayload!</div><div class="params__desc">Args: <code>username,email,password</code> (required).</div></div>
+              <div class="params__row"><div class="params__name">login</div><div class="params__meta"><span class="badge">Mutation</span> AuthPayload!</div><div class="params__desc">Args: <code>email,password</code> (required).</div></div>
+              <div class="params__row"><div class="params__name">updateUser</div><div class="params__meta"><span class="badge">Mutation</span> UpdateUserPayload</div><div class="params__desc">Args: <code>id: ID!</code>, <code>input: UpdateUserInput</code></div></div>
+              <div class="params__row"><div class="params__name">resetPassword</div><div class="params__meta"><span class="badge">Mutation</span> UpdateUserPayload</div><div class="params__desc">Args: <code>id: String!</code>, <code>newPassword: String!</code></div></div>
+              <div class="params__row"><div class="params__name">createAMASession</div><div class="params__meta"><span class="badge">Mutation</span> AMASession!</div><div class="params__desc">Args: <code>title: String!</code>, <code>description: String</code>, <code>scheduledAt: String!</code></div></div>
+              <div class="params__row"><div class="params__name">endAMASession</div><div class="params__meta"><span class="badge">Mutation</span> AMASession!</div><div class="params__desc">Args: <code>id: ID!</code></div></div>
+              <div class="params__row"><div class="params__name">createJobInternship</div><div class="params__meta"><span class="badge">Mutation</span> JobAndInternship!</div><div class="params__desc">Args: <code>title,organization,role,link</code> required; <code>description</code> optional.</div></div>
+              <div class="params__row"><div class="params__name">endJobInternship</div><div class="params__meta"><span class="badge">Mutation</span> JobAndInternship!</div><div class="params__desc">Args: <code>_id: ID!</code></div></div>
+            </div>
+          </section>
+
+          <!-- Messages module -->
+          <section class="doc__section" id="messages">
+            <div class="sectionhead">
+              <h2 class="h2">messages</h2>
+              <p class="muted">1:1 messages, chat rooms, pagination connections, subscriptions.</p>
+            </div>
+
+            <div class="split">
+              <div>
+                <h3 class="h3">Message</h3>
+                <div class="props">
+                  <div class="props__row"><div class="props__key">id</div><div class="props__type">ID!</div><div class="props__desc">Message id.</div></div>
+                  <div class="props__row"><div class="props__key">sender</div><div class="props__type">User!</div><div class="props__desc">Sender user.</div></div>
+                  <div class="props__row"><div class="props__key">receiver</div><div class="props__type">User!</div><div class="props__desc">Receiver user.</div></div>
+                  <div class="props__row"><div class="props__key">content</div><div class="props__type">String!</div><div class="props__desc">Message content.</div></div>
+                  <div class="props__row"><div class="props__key">roomId</div><div class="props__type">String!</div><div class="props__desc">Room id string.</div></div>
+                  <div class="props__row"><div class="props__key">readAt</div><div class="props__type">DateTime</div><div class="props__desc">Read time (nullable).</div></div>
+                  <div class="props__row"><div class="props__key">createdAt</div><div class="props__type">DateTime!</div><div class="props__desc">Created time.</div></div>
+                  <div class="props__row"><div class="props__key">updatedAt</div><div class="props__type">DateTime!</div><div class="props__desc">Updated time.</div></div>
+                </div>
+
+                <h3 class="h3" style="margin-top:14px;">ChatRoom</h3>
+                <div class="props">
+                  <div class="props__row"><div class="props__key">id</div><div class="props__type">ID!</div><div class="props__desc">Room id.</div></div>
+                  <div class="props__row"><div class="props__key">participants</div><div class="props__type">[User!]!</div><div class="props__desc">Room participants.</div></div>
+                  <div class="props__row"><div class="props__key">lastMessage</div><div class="props__type">Message</div><div class="props__desc">Last message (nullable).</div></div>
+                  <div class="props__row"><div class="props__key">unreadCount</div><div class="props__type">Int!</div><div class="props__desc">Unread count.</div></div>
+                  <div class="props__row"><div class="props__key">updatedAt</div><div class="props__type">DateTime!</div><div class="props__desc">Updated time.</div></div>
+                </div>
+
+                <h3 class="h3" style="margin-top:14px;">Inputs</h3>
+                <div class="props">
+                  <div class="props__row"><div class="props__key">SendMessageInput</div><div class="props__type">input</div><div class="props__desc"><code>{ receiverId: ID!, content: String! }</code></div></div>
+                  <div class="props__row"><div class="props__key">MarkMessageReadInput</div><div class="props__type">input</div><div class="props__desc"><code>{ messageId: ID! }</code></div></div>
+                </div>
+              </div>
+
+              <div class="codepane">
+                <div class="codepane__tabs">
+                  <button class="tab is-active" data-lang="graphql">GraphQL</button>
+                  <button class="tab" data-lang="curl">cURL</button>
+                  <button class="tab" data-lang="node">Node</button>
+                </div>
+
+                <div class="codepane__body">
+                  <pre class="code codepane__code" data-code="graphql"><code>query Rooms($first: Int, $after: String) {
+  chatRooms(first: $first, after: $after) {
+    edges {
+      cursor
+      node {
+        id
+        unreadCount
+        updatedAt
+        participants { _id username }
+        lastMessage { id content createdAt }
+      }
+    }
+    pageInfo { hasNextPage endCursor }
+  }
+}</code></pre>
+
+                  <pre class="code codepane__code is-hidden" data-code="curl"><code>curl https://api.example.com/graphql \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer &lt;token&gt;" \
+  -d '{"query":"query Rooms($first:Int,$after:String){ chatRooms(first:$first,after:$after){ edges{ cursor node{ id unreadCount updatedAt } } pageInfo{ hasNextPage endCursor } } }","variables":{"first":10}}'</code></pre>
+
+                  <pre class="code codepane__code is-hidden" data-code="node"><code>const res = await fetch("https://api.example.com/graphql", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer <token>",
+  },
+  body: JSON.stringify({
+    query: `query Rooms($first:Int,$after:String){
+      chatRooms(first:$first,after:$after){
+        edges{ cursor node{ id unreadCount updatedAt } }
+        pageInfo{ hasNextPage endCursor }
+      }
+    }`,
+    variables: { first: 10 },
+  }),
+});
+console.log(await res.json());</code></pre>
+                </div>
+              </div>
+            </div>
+
+            <h3 class="h3" style="margin-top:16px;">Queries</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">messages</div><div class="params__meta"><span class="badge">Query</span> MessageConnection!</div><div class="params__desc">Args: <code>roomId: ID!</code> + pagination (<code>first/after/last/before</code>).</div></div>
+              <div class="params__row"><div class="params__name">chatRooms</div><div class="params__meta"><span class="badge">Query</span> ChatRoomConnection!</div><div class="params__desc">Pagination (<code>first/after/last/before</code>).</div></div>
+              <div class="params__row"><div class="params__name">unreadMessagesCount</div><div class="params__meta"><span class="badge">Query</span> Int!</div><div class="params__desc">Total unread message count.</div></div>
+            </div>
+
+            <h3 class="h3" style="margin-top:16px;">Mutations</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">sendMessage</div><div class="params__meta"><span class="badge">Mutation</span> Message!</div><div class="params__desc">Args: <code>input: SendMessageInput!</code></div></div>
+              <div class="params__row"><div class="params__name">markMessageRead</div><div class="params__meta"><span class="badge">Mutation</span> Message!</div><div class="params__desc">Args: <code>input: MarkMessageReadInput!</code></div></div>
+            </div>
+
+            <h3 class="h3" style="margin-top:16px;">Subscriptions</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">messageReceived</div><div class="params__meta"><span class="badge">Subscription</span> Message!</div><div class="params__desc">Emits when a new message arrives.</div></div>
+              <div class="params__row"><div class="params__name">messageRead</div><div class="params__meta"><span class="badge">Subscription</span> Message!</div><div class="params__desc">Emits when a message is marked read.</div></div>
+            </div>
+          </section>
+
+          <!-- Group chat module -->
+          <section class="doc__section" id="group-chat">
+            <div class="sectionhead">
+              <h2 class="h2">group-chat</h2>
+              <p class="muted">Groups, members, group messages, pinned messages, typing indicators, subscriptions.</p>
+            </div>
+
+            <div class="split">
+              <div>
+                <h3 class="h3">Group</h3>
+                <div class="props">
+                  <div class="props__row"><div class="props__key">id</div><div class="props__type">ID!</div><div class="props__desc">Internal id.</div></div>
+                  <div class="props__row"><div class="props__key">groupId</div><div class="props__type">String!</div><div class="props__desc">Public group id.</div></div>
+                  <div class="props__row"><div class="props__key">name</div><div class="props__type">String!</div><div class="props__desc">Group name.</div></div>
+                  <div class="props__row"><div class="props__key">createdBy</div><div class="props__type">User!</div><div class="props__desc">Creator user.</div></div>
+                  <div class="props__row"><div class="props__key">members</div><div class="props__type">[GroupMember!]!</div><div class="props__desc">Members list.</div></div>
+                  <div class="props__row"><div class="props__key">lastMessageText</div><div class="props__type">String</div><div class="props__desc">Last message preview.</div></div>
+                  <div class="props__row"><div class="props__key">lastMessageAt</div><div class="props__type">DateTime</div><div class="props__desc">Last message time.</div></div>
+                  <div class="props__row"><div class="props__key">createdAt</div><div class="props__type">DateTime!</div><div class="props__desc">Created time.</div></div>
+                  <div class="props__row"><div class="props__key">updatedAt</div><div class="props__type">DateTime!</div><div class="props__desc">Updated time.</div></div>
+                </div>
+
+                <h3 class="h3" style="margin-top:14px;">GroupMessage</h3>
+                <div class="props">
+                  <div class="props__row"><div class="props__key">id</div><div class="props__type">ID!</div><div class="props__desc">Message id.</div></div>
+                  <div class="props__row"><div class="props__key">group</div><div class="props__type">Group!</div><div class="props__desc">Group.</div></div>
+                  <div class="props__row"><div class="props__key">sender</div><div class="props__type">User!</div><div class="props__desc">Sender.</div></div>
+                  <div class="props__row"><div class="props__key">content</div><div class="props__type">String!</div><div class="props__desc">Content.</div></div>
+                  <div class="props__row"><div class="props__key">type</div><div class="props__type">MessageType!</div><div class="props__desc">Message type (ex: TEXT).</div></div>
+                  <div class="props__row"><div class="props__key">status</div><div class="props__type">MessageStatus!</div><div class="props__desc">Delivery status.</div></div>
+                  <div class="props__row"><div class="props__key">mentions</div><div class="props__type">[Mention!]!</div><div class="props__desc">Mentions list.</div></div>
+                  <div class="props__row"><div class="props__key">poll</div><div class="props__type">Poll</div><div class="props__desc">Optional poll.</div></div>
+                  <div class="props__row"><div class="props__key">forwarded</div><div class="props__type">ForwardedMessage</div><div class="props__desc">Forward metadata.</div></div>
+                  <div class="props__row"><div class="props__key">isPinned</div><div class="props__type">Boolean!</div><div class="props__desc">Pinned flag.</div></div>
+                  <div class="props__row"><div class="props__key">pinnedAt</div><div class="props__type">DateTime</div><div class="props__desc">Pinned time.</div></div>
+                  <div class="props__row"><div class="props__key">pinnedBy</div><div class="props__type">User</div><div class="props__desc">Pinned by user.</div></div>
+                  <div class="props__row"><div class="props__key">readBy</div><div class="props__type">[ReadReceipt!]!</div><div class="props__desc">Read receipts.</div></div>
+                  <div class="props__row"><div class="props__key">deletedFor</div><div class="props__type">[ID!]!</div><div class="props__desc">Deleted-for user IDs.</div></div>
+                  <div class="props__row"><div class="props__key">deletedForEveryone</div><div class="props__type">Boolean!</div><div class="props__desc">Global deletion flag.</div></div>
+                  <div class="props__row"><div class="props__key">deletedAt</div><div class="props__type">DateTime</div><div class="props__desc">Deletion time.</div></div>
+                  <div class="props__row"><div class="props__key">deletedBy</div><div class="props__type">User</div><div class="props__desc">Deleted by user.</div></div>
+                  <div class="props__row"><div class="props__key">replyTo</div><div class="props__type">GroupMessage</div><div class="props__desc">Thread reply target.</div></div>
+                  <div class="props__row"><div class="props__key">createdAt</div><div class="props__type">DateTime!</div><div class="props__desc">Created time.</div></div>
+                  <div class="props__row"><div class="props__key">updatedAt</div><div class="props__type">DateTime!</div><div class="props__desc">Updated time.</div></div>
+                </div>
+
+                <h3 class="h3" style="margin-top:14px;">Inputs</h3>
+                <div class="props">
+                  <div class="props__row"><div class="props__key">CreateGroupInput</div><div class="props__type">input</div><div class="props__desc"><code>{ name: String!, memberIds: [ID!]! }</code></div></div>
+                  <div class="props__row"><div class="props__key">SendGroupMessageInput</div><div class="props__type">input</div><div class="props__desc"><code>{ groupId: ID!, content: String!, type: MessageType = TEXT, poll, replyToId }</code></div></div>
+                  <div class="props__row"><div class="props__key">RenameGroupInput</div><div class="props__type">input</div><div class="props__desc"><code>{ groupId: ID!, name: String! }</code></div></div>
+                </div>
+              </div>
+
+              <div class="codepane">
+                <div class="codepane__tabs">
+                  <button class="tab is-active" data-lang="graphql">GraphQL</button>
+                  <button class="tab" data-lang="curl">cURL</button>
+                  <button class="tab" data-lang="node">Node</button>
+                </div>
+
+                <div class="codepane__body">
+                  <pre class="code codepane__code" data-code="graphql"><code>mutation SendGroupMessage($input: SendGroupMessageInput!) {
+  sendGroupMessage(input: $input) {
+    id
+    content
+    createdAt
+    sender { _id username }
+    group { id name }
+  }
+}</code></pre>
+
+                  <pre class="code codepane__code is-hidden" data-code="curl"><code>curl https://api.example.com/graphql \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer &lt;token&gt;" \
+  -d '{
+    "query":"mutation SendGroupMessage($input:SendGroupMessageInput!){ sendGroupMessage(input:$input){ id content createdAt } }",
+    "variables": { "input": { "groupId":"&lt;groupId&gt;", "content":"Hello group!" } }
+  }'</code></pre>
+
+                  <pre class="code codepane__code is-hidden" data-code="node"><code>const res = await fetch("https://api.example.com/graphql", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer <token>",
+  },
+  body: JSON.stringify({
+    query: `mutation SendGroupMessage($input:SendGroupMessageInput!){
+      sendGroupMessage(input:$input){ id content createdAt }
+    }`,
+    variables: { input: { groupId: "<groupId>", content: "Hello group!" } },
+  }),
+});
+console.log(await res.json());</code></pre>
+                </div>
+              </div>
+            </div>
+
+            <h3 class="h3" style="margin-top:16px;">Queries</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">groups</div><div class="params__meta"><span class="badge">Query</span> GroupConnection!</div><div class="params__desc">Pagination (<code>first/after/last/before</code>).</div></div>
+              <div class="params__row"><div class="params__name">group</div><div class="params__meta"><span class="badge">Query</span> Group</div><div class="params__desc">Args: <code>groupId: ID!</code></div></div>
+              <div class="params__row"><div class="params__name">groupMessages</div><div class="params__meta"><span class="badge">Query</span> GroupMessageConnection!</div><div class="params__desc">Args: <code>groupId: ID!</code> + pagination.</div></div>
+              <div class="params__row"><div class="params__name">pinnedGroupMessages</div><div class="params__meta"><span class="badge">Query</span> [GroupMessage!]!</div><div class="params__desc">Args: <code>groupId: ID!</code></div></div>
+              <div class="params__row"><div class="params__name">groupTypingUsers</div><div class="params__meta"><span class="badge">Query</span> [User!]!</div><div class="params__desc">Args: <code>groupId: ID!</code></div></div>
+            </div>
+
+            <h3 class="h3" style="margin-top:16px;">Mutations</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">createGroup</div><div class="params__meta"><span class="badge">Mutation</span> Group!</div><div class="params__desc">Args: <code>input: CreateGroupInput!</code></div></div>
+              <div class="params__row"><div class="params__name">addGroupMembers</div><div class="params__meta"><span class="badge">Mutation</span> Group!</div><div class="params__desc">Args: <code>input: AddGroupMembersInput!</code></div></div>
+              <div class="params__row"><div class="params__name">removeGroupMember</div><div class="params__meta"><span class="badge">Mutation</span> Group!</div><div class="params__desc">Args: <code>input: RemoveGroupMemberInput!</code></div></div>
+              <div class="params__row"><div class="params__name">leaveGroup</div><div class="params__meta"><span class="badge">Mutation</span> Group!</div><div class="params__desc">Args: <code>groupId: ID!</code></div></div>
+              <div class="params__row"><div class="params__name">sendGroupMessage</div><div class="params__meta"><span class="badge">Mutation</span> GroupMessage!</div><div class="params__desc">Args: <code>input: SendGroupMessageInput!</code></div></div>
+              <div class="params__row"><div class="params__name">sendGroupPoll</div><div class="params__meta"><span class="badge">Mutation</span> GroupMessage!</div><div class="params__desc">Args: <code>input: SendGroupPollInput!</code></div></div>
+              <div class="params__row"><div class="params__name">forwardGroupMessage</div><div class="params__meta"><span class="badge">Mutation</span> GroupMessage!</div><div class="params__desc">Args: <code>input: ForwardGroupMessageInput!</code></div></div>
+              <div class="params__row"><div class="params__name">voteGroupPoll</div><div class="params__meta"><span class="badge">Mutation</span> GroupMessage!</div><div class="params__desc">Args: <code>input: VoteGroupPollInput!</code></div></div>
+              <div class="params__row"><div class="params__name">pinGroupMessage</div><div class="params__meta"><span class="badge">Mutation</span> GroupMessage!</div><div class="params__desc">Args: <code>input: PinGroupMessageInput!</code></div></div>
+              <div class="params__row"><div class="params__name">unpinGroupMessage</div><div class="params__meta"><span class="badge">Mutation</span> GroupMessage!</div><div class="params__desc">Args: <code>input: UnpinGroupMessageInput!</code></div></div>
+              <div class="params__row"><div class="params__name">deleteGroupMessage</div><div class="params__meta"><span class="badge">Mutation</span> Boolean!</div><div class="params__desc">Args: <code>messageId: ID!</code>, <code>deleteForEveryone: Boolean = false</code></div></div>
+              <div class="params__row"><div class="params__name">renameGroup</div><div class="params__meta"><span class="badge">Mutation</span> Group!</div><div class="params__desc">Args: <code>input: RenameGroupInput!</code></div></div>
+            </div>
+
+            <h3 class="h3" style="margin-top:16px;">Subscriptions</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">groupMessageReceived</div><div class="params__meta"><span class="badge">Subscription</span> GroupMessage!</div><div class="params__desc">Args: <code>groupId: ID!</code></div></div>
+              <div class="params__row"><div class="params__name">groupMessageDeleted</div><div class="params__meta"><span class="badge">Subscription</span> ID!</div><div class="params__desc">Args: <code>groupId: ID!</code></div></div>
+              <div class="params__row"><div class="params__name">groupMessagePinned</div><div class="params__meta"><span class="badge">Subscription</span> GroupMessage!</div><div class="params__desc">Args: <code>groupId: ID!</code></div></div>
+              <div class="params__row"><div class="params__name">groupMessageUnpinned</div><div class="params__meta"><span class="badge">Subscription</span> ID!</div><div class="params__desc">Args: <code>groupId: ID!</code></div></div>
+              <div class="params__row"><div class="params__name">groupUserTyping</div><div class="params__meta"><span class="badge">Subscription</span> UserTypingEvent!</div><div class="params__desc">Args: <code>groupId: ID!</code></div></div>
+            </div>
+          </section>
+
+          <!-- Organization module -->
+          <section class="doc__section" id="organization">
+            <div class="sectionhead">
+              <h2 class="h2">organization</h2>
+              <p class="muted">Organizations, departments, roles, assignments, and follow/join requests.</p>
+            </div>
+
+            <div class="split">
+              <div>
+                <h3 class="h3">Organization</h3>
+                <div class="props">
+                  <div class="props__row"><div class="props__key">organizationId</div><div class="props__type">String!</div><div class="props__desc">Organization id.</div></div>
+                  <div class="props__row"><div class="props__key">name</div><div class="props__type">String!</div><div class="props__desc">Organization name.</div></div>
+                  <div class="props__row"><div class="props__key">slug</div><div class="props__type">String!</div><div class="props__desc">URL slug.</div></div>
+                  <div class="props__row"><div class="props__key">description</div><div class="props__type">String!</div><div class="props__desc">Description.</div></div>
+                  <div class="props__row"><div class="props__key">email</div><div class="props__type">String!</div><div class="props__desc">Contact email.</div></div>
+                  <div class="props__row"><div class="props__key">phone</div><div class="props__type">String!</div><div class="props__desc">Contact phone.</div></div>
+                  <div class="props__row"><div class="props__key">address</div><div class="props__type">OrganizationAddress!</div><div class="props__desc">Address object.</div></div>
+                  <div class="props__row"><div class="props__key">departments</div><div class="props__type">[Department!]</div><div class="props__desc">Departments list (nullable).</div></div>
+                  <div class="props__row"><div class="props__key">followers</div><div class="props__type">[String!]!</div><div class="props__desc">Follower ids.</div></div>
+                  <div class="props__row"><div class="props__key">followersCount</div><div class="props__type">Int!</div><div class="props__desc">Followers count.</div></div>
+                  <div class="props__row"><div class="props__key">studentsCount</div><div class="props__type">Int!</div><div class="props__desc">Students count.</div></div>
+                  <div class="props__row"><div class="props__key">isVerified</div><div class="props__type">Boolean!</div><div class="props__desc">Verification flag.</div></div>
+                  <div class="props__row"><div class="props__key">isActive</div><div class="props__type">Boolean!</div><div class="props__desc">Active flag.</div></div>
+                  <div class="props__row"><div class="props__key">createdAt</div><div class="props__type">String!</div><div class="props__desc">Created time.</div></div>
+                  <div class="props__row"><div class="props__key">updatedAt</div><div class="props__type">String!</div><div class="props__desc">Updated time.</div></div>
+                </div>
+
+                <h3 class="h3" style="margin-top:14px;">Roles & assignments</h3>
+                <div class="props">
+                  <div class="props__row"><div class="props__key">OrganizationRole</div><div class="props__type">type</div><div class="props__desc">Role model (permissions, isDefault, createdBy, timestamps).</div></div>
+                  <div class="props__row"><div class="props__key">OrganizationUserRole</div><div class="props__type">type</div><div class="props__desc">Role assignment (orgId, userId, roleId, deptId, assignedBy, isActive).</div></div>
+                </div>
+
+                <h3 class="h3" style="margin-top:14px;">Inputs (common)</h3>
+                <div class="props">
+                  <div class="props__row"><div class="props__key">CreateOrganizationInput</div><div class="props__type">input</div><div class="props__desc">Create org (name, description, contacts, address, departments).</div></div>
+                  <div class="props__row"><div class="props__key">UpdateOrganizationInput</div><div class="props__type">input</div><div class="props__desc">Update org (optional fields).</div></div>
+                  <div class="props__row"><div class="props__key">OrganizationFilterInput</div><div class="props__type">input</div><div class="props__desc">Filter/search organizations.</div></div>
+                  <div class="props__row"><div class="props__key">CreateOrganizationRoleInput</div><div class="props__type">input</div><div class="props__desc">Create role + permissions.</div></div>
+                  <div class="props__row"><div class="props__key">UpdateOrganizationRoleInput</div><div class="props__type">input</div><div class="props__desc">Update role fields.</div></div>
+                  <div class="props__row"><div class="props__key">CreateJoinRequestInput</div><div class="props__type">input</div><div class="props__desc">Join request (orgId, userId, status, timestamps).</div></div>
+                </div>
+              </div>
+
+              <div class="codepane">
+                <div class="codepane__tabs">
+                  <button class="tab is-active" data-lang="graphql">GraphQL</button>
+                  <button class="tab" data-lang="curl">cURL</button>
+                  <button class="tab" data-lang="node">Node</button>
+                </div>
+
+                <div class="codepane__body">
+                  <pre class="code codepane__code" data-code="graphql"><code>query SearchOrgs($filter: OrganizationFilterInput, $page: Int, $limit: Int) {
+  searchOrganizations(filter: $filter, page: $page, limit: $limit) {
+    success
+    message
+    total
+    page
+    limit
+    organizations {
+      organizationId
+      name
+      slug
+      city: address { city }
+      isVerified
+      followersCount
+    }
+  }
+}</code></pre>
+
+                  <pre class="code codepane__code is-hidden" data-code="curl"><code>curl https://api.example.com/graphql \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer &lt;token&gt;" \
+  -d '{"query":"query($filter:OrganizationFilterInput,$page:Int,$limit:Int){ searchOrganizations(filter:$filter,page:$page,limit:$limit){ success message total organizations{ organizationId name slug isVerified followersCount } } }","variables":{"page":1,"limit":10}}'</code></pre>
+
+                  <pre class="code codepane__code is-hidden" data-code="node"><code>const res = await fetch("https://api.example.com/graphql", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer <token>",
+  },
+  body: JSON.stringify({
+    query: `query($filter:OrganizationFilterInput,$page:Int,$limit:Int){
+      searchOrganizations(filter:$filter,page:$page,limit:$limit){
+        success message total
+        organizations{ organizationId name slug isVerified followersCount }
+      }
+    }`,
+    variables: { page: 1, limit: 10 },
+  }),
+});
+console.log(await res.json());</code></pre>
+                </div>
+              </div>
+            </div>
+
+            <h3 class="h3" style="margin-top:16px;">Queries</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">searchOrganizations</div><div class="params__meta"><span class="badge">Query</span> OrganizationsResponse!</div><div class="params__desc">Args: <code>filter</code>, <code>page:Int=1</code>, <code>limit:Int=10</code></div></div>
+              <div class="params__row"><div class="params__name">getOrganizationBySlug</div><div class="params__meta"><span class="badge">Query</span> OrganizationResponse!</div><div class="params__desc">Args: <code>slug: String!</code></div></div>
+              <div class="params__row"><div class="params__name">getOrganizationById</div><div class="params__meta"><span class="badge">Query</span> OrganizationResponse!</div><div class="params__desc">Args: <code>organizationId: ID!</code></div></div>
+              <div class="params__row"><div class="params__name">getOrganizationRoles</div><div class="params__meta"><span class="badge">Query</span> OrganizationRolesResponse!</div><div class="params__desc">Args: <code>organizationId: ID!</code></div></div>
+              <div class="params__row"><div class="params__name">getOrganizationRole</div><div class="params__meta"><span class="badge">Query</span> OrganizationRoleResponse!</div><div class="params__desc">Args: <code>roleId: ID!</code></div></div>
+            </div>
+
+            <h3 class="h3" style="margin-top:16px;">Mutations</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">assignOrganizationRole</div><div class="params__meta"><span class="badge">Mutation</span> OrganizationRoleResponse!</div><div class="params__desc">Args: <code>organizationId,userId,roleId</code> required; <code>departmentId</code> optional.</div></div>
+              <div class="params__row"><div class="params__name">removeOrganizationRole</div><div class="params__meta"><span class="badge">Mutation</span> OrganizationRoleResponse!</div><div class="params__desc">Args: <code>organizationId: ID!</code>, <code>userId: ID!</code></div></div>
+
+              <div class="params__row"><div class="params__name">followOrganization</div><div class="params__meta"><span class="badge">Mutation</span> OrganizationResponse!</div><div class="params__desc">Args: <code>organizationId: ID!</code></div></div>
+              <div class="params__row"><div class="params__name">unfollowOrganization</div><div class="params__meta"><span class="badge">Mutation</span> OrganizationResponse!</div><div class="params__desc">Args: <code>organizationId: ID!</code></div></div>
+
+              <div class="params__row"><div class="params__name">createOrganizationRole</div><div class="params__meta"><span class="badge">Mutation</span> OrganizationRoleResponse!</div><div class="params__desc">Args: <code>organizationId: ID!</code>, <code>input: CreateOrganizationRoleInput!</code></div></div>
+              <div class="params__row"><div class="params__name">updateOrganizationRole</div><div class="params__meta"><span class="badge">Mutation</span> OrganizationRoleResponse!</div><div class="params__desc">Args: <code>roleId: ID!</code>, <code>input: UpdateOrganizationRoleInput!</code></div></div>
+              <div class="params__row"><div class="params__name">deleteOrganizationRole</div><div class="params__meta"><span class="badge">Mutation</span> OrganizationRoleResponse!</div><div class="params__desc">Args: <code>roleId: ID!</code></div></div>
+
+              <div class="params__row"><div class="params__name">createJoinRequest</div><div class="params__meta"><span class="badge">Mutation</span> JoinRequestResponse!</div><div class="params__desc">Args: <code>input: CreateJoinRequestInput!</code></div></div>
+            </div>
+          </section>
+
+          
+          <!-- Address -->
+          <section class="doc__section" id="address">
+            <div class="sectionhead">
+              <h2 class="h2">address</h2>
+              <p class="muted">Address management (create, update, delete, fetch by id).</p>
+            </div>
+
+            <h4 class="h4">Types</h4>
+            <pre class="code"><code>type AddressResult {
+  success: Boolean!
+  message: String!
+  address: Address
+}
+
+type DeleteAddressResult {
+  success: Boolean!
+  message: String!
+}</code></pre>
+
+            <h4 class="h4">Query</h4>
+            <div class="params">
+              <div class="params__row">
+                <div class="params__name">getAddressById</div>
+                <div class="params__meta"><span class="badge">Query</span> AddressResult!</div>
+                <div class="params__desc">Args: <code>addressId: String!</code></div>
+              </div>
+            </div>
+
+            <h4 class="h4">Mutations</h4>
+            <div class="params">
+              <div class="params__row">
+                <div class="params__name">createAddress</div>
+                <div class="params__meta"><span class="badge">Mutation</span> AddressResult!</div>
+                <div class="params__desc">Args: <code>input: AddressInput!</code></div>
+              </div>
+              <div class="params__row">
+                <div class="params__name">updateAddress</div>
+                <div class="params__meta"><span class="badge">Mutation</span> AddressResult!</div>
+                <div class="params__desc">Args: <code>addressId: String!</code>, <code>input: AddressInput!</code></div>
+              </div>
+              <div class="params__row">
+                <div class="params__name">deleteAddress</div>
+                <div class="params__meta"><span class="badge">Mutation</span> AddressResult!</div>
+                <div class="params__desc">Args: <code>addressId: String!</code></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Admin -->
+          <section class="doc__section" id="admin">
+            <div class="sectionhead">
+              <h2 class="h2">admin</h2>
+              <p class="muted">Admin APIs for organization join-request moderation.</p>
+            </div>
+
+            <h4 class="h4">Types</h4>
+            <pre class="code"><code>type OrganizationJoinRequest {
+  requestId: ID!
+  organizationId: ID!
+  userId: ID!
+  status: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type JoinRequestResponse {
+  success: Boolean!
+  message: String!
+  request: OrganizationJoinRequest
+}
+
+type JoinRequestsResponse {
+  success: Boolean!
+  message: String!
+  requests: [OrganizationJoinRequest!]!
+  total: Int!
+  page: Int!
+  limit: Int!
+}</code></pre>
+
+            <h4 class="h4">Queries</h4>
+            <div class="params">
+              <div class="params__row">
+                <div class="params__name">getJoinRequests</div>
+                <div class="params__meta"><span class="badge">Query</span> JoinRequestsResponse!</div>
+                <div class="params__desc">Args: <code>organizationId: ID!</code>, <code>status: String</code>, <code>page: Int = 1</code>, <code>limit: Int = 10</code></div>
+              </div>
+              <div class="params__row">
+                <div class="params__name">getJoinRequest</div>
+                <div class="params__meta"><span class="badge">Query</span> JoinRequestResponse!</div>
+                <div class="params__desc">Args: <code>requestId: ID!</code></div>
+              </div>
+            </div>
+
+            <h4 class="h4">Mutations</h4>
+            <div class="params">
+              <div class="params__row">
+                <div class="params__name">approveJoinRequest</div>
+                <div class="params__meta"><span class="badge">Mutation</span> JoinRequestResponse!</div>
+                <div class="params__desc">Args: <code>requestId: ID!</code></div>
+              </div>
+              <div class="params__row">
+                <div class="params__name">rejectJoinRequest</div>
+                <div class="params__meta"><span class="badge">Mutation</span> JoinRequestResponse!</div>
+                <div class="params__desc">Args: <code>requestId: ID!</code>, <code>reason: String!</code></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Connections -->
+          <section class="doc__section" id="connections">
+            <div class="sectionhead">
+              <h2 class="h2">connections</h2>
+              <p class="muted">Friend connections, profiles, suggestions, and network stats.</p>
+            </div>
+
+            <h4 class="h4">Core types</h4>
+            <pre class="code"><code>type FriendConnection {
+  connectionId: ID!
+  userId: ID!
+  friendId: ID!
+  status: FriendConnectionStatus!
+  initiatedBy: ID!
+  acceptedAt: DateTime
+  rejectedAt: DateTime
+  blockedAt: DateTime
+  blockedBy: ID
+  metadata: FriendConnectionMetadata
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type FriendConnectionMetadata {
+  lastInteractionAt: DateTime
+  mutualFriends: Int
+  commonGroups: Int
+}
+
+enum FriendConnectionStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  BLOCKED
+}
+
+type FriendProfile {
+  profileId: ID!
+  userId: ID!
+  visibility: ProfileVisibility!
+  bio: String
+  interests: [String!]
+  education: [Education!]
+  experience: [Experience!]
+  skills: [String!]
+  socialLinks: [SocialLink!]
+  achievements: [Achievement!]
+  stats: ProfileStats
+  lastActive: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+enum ProfileVisibility {
+  PUBLIC
+  FRIENDS
+  PRIVATE
+}</code></pre>
+
+            <h4 class="h4">Inputs</h4>
+            <pre class="code"><code>input CreateFriendConnectionInput { friendId: ID! }
+input UpdateFriendConnectionInput { status: FriendConnectionStatus! }
+input UpdateFriendProfileInput {
+  visibility: ProfileVisibility
+  bio: String
+  interests: [String!]
+  education: [EducationInput!]
+  experience: [ExperienceInput!]
+  skills: [String!]
+  socialLinks: [SocialLinkInput!]
+  achievements: [AchievementInput!]
+}</code></pre>
+
+            <h4 class="h4">Responses</h4>
+            <pre class="code"><code>type FriendConnectionResponse {
+  success: Boolean!
+  message: String!
+  connection: FriendConnection
+}
+
+type FriendProfileResponse {
+  success: Boolean!
+  message: String!
+  profile: FriendProfile
+}
+
+type FriendConnectionsResponse {
+  success: Boolean!
+  message: String!
+  connections: [FriendConnection!]!
+  total: Int!
+  page: Int!
+  limit: Int!
+  totalPages: Int!
+}
+
+type FriendSuggestionsResponse {
+  success: Boolean!
+  message: String!
+  suggestions: [FriendProfile!]!
+  total: Int!
+}
+
+type NetworkStatsResponse {
+  success: Boolean!
+  message: String!
+  stats: NetworkStats!
+}</code></pre>
+          </section>
+
+          <section class="doc__section" id="notes">
+            <h2 class="h2">notes</h2>
+            <div class="callout callout--warn">
+              <div class="callout__title">Type name collisions</div>
+              <p class="muted" style="margin:0;">
+                If another module also defines <code>type User</code>, you must merge them into one type or use <code>extend type User</code>.
+              </p>
+            </div>
+          </section>
+
+          <footer class="doc__footer">
+            <div class="muted">Docs UI is original; content is based on the SDL you provided.</div>
+          </footer>
+        
+          <!-- Global module -->
+          <section class="doc__section" id="global">
+            <div class="sectionhead">
+              <h2 class="h2">global</h2>
+              <p class="muted">Shared primitives used across modules (addresses, maps).</p>
+            </div>
+
+            <h3 class="h3">Enums</h3>
+            <pre class="code"><code>enum AddressType { Home Work Billing None }</code></pre>
+
+            <h3 class="h3">Types</h3>
+            <pre class="code"><code>type Map { latitude: Float! longitude: Float! }
+
+type Address {
+  addressId: ID!
+  addressLine: String!
+  city: String!
+  region: String!
+  postalCode: String!
+  country: String!
+  map: Map!
+  isPrimary: Boolean!
+  type: AddressType!
+  createdAt: String!
+  updatedAt: String!
+}</code></pre>
+
+            <h3 class="h3">Inputs</h3>
+            <pre class="code"><code>input MapInput { latitude: Float! longitude: Float! }
+
+input AddressInput {
+  addressLine: String!
+  city: String!
+  region: String!
+  postalCode: String!
+  country: String!
+  map: MapInput!
+  isPrimary: Boolean
+  type: AddressType
+}</code></pre>
+          </section>
+
+          <!-- Common module -->
+          <section class="doc__section" id="common">
+            <div class="sectionhead">
+              <h2 class="h2">common</h2>
+              <p class="muted">Email domain verification flow (send code + verify code).</p>
+            </div>
+
+            <h3 class="h3">Mutations</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">sendDomainEmailVerificationCode</div><div class="params__meta"><span class="badge">Mutation</span> EmailDomainVerificationResponse</div><div class="params__desc">Send a verification token to an email domain.</div></div>
+              <div class="params__row"><div class="params__name">verifyDomainEmailVerificationCode</div><div class="params__meta"><span class="badge">Mutation</span> EmailDomainVerificationResponse</div><div class="params__desc">Verify the token for the email+entity.</div></div>
+            </div>
+
+            <h3 class="h3">Types & Inputs</h3>
+            <pre class="code"><code>type CommonResponse { success: Boolean! message: String! }
+
+input SendDomainEmailVerificationCodeInput {
+  email: String!
+  metadata: EmailDomainVerificationMetadataInput!
+  entityId: String!
+}
+
+input VerifyDomainEmailVerificationCodeInput {
+  token: String!
+  email: String!
+  entityId: String!
+}
+
+input EmailDomainVerificationMetadataInput {
+  fullName: String!
+  rollNumber: String!
+  batch: String!
+}
+
+type EmailDomainVerificationResponse { success: Boolean! message: String! }</code></pre>
+          </section>
+
+          <!-- Entity module -->
+          <section class="doc__section" id="entity">
+            <div class="sectionhead">
+              <h2 class="h2">entity</h2>
+              <p class="muted">Entities (institutes/departments/clubs): CRUD, members, requests, stats, search.</p>
+            </div>
+
+            <h3 class="h3">Key Queries</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">getUserEntities</div><div class="params__meta"><span class="badge">Query</span> EntitiesResponse</div><div class="params__desc">Entities the current user belongs to.</div></div>
+              <div class="params__row"><div class="params__name">getEntityBySlug</div><div class="params__meta"><span class="badge">Query</span> EntityResponse</div><div class="params__desc">Args: <code>slug: String!</code></div></div>
+              <div class="params__row"><div class="params__name">getEntityRequests</div><div class="params__meta"><span class="badge">Query</span> EntityRequestsResponse</div><div class="params__desc">Args: <code>entityId: String!</code></div></div>
+              <div class="params__row"><div class="params__name">getEntityStats</div><div class="params__meta"><span class="badge">Query</span> EntityStatsResponse</div><div class="params__desc">Args: <code>organizationId: String!</code></div></div>
+            </div>
+
+            <h3 class="h3">Key Mutations</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">createEntity</div><div class="params__meta"><span class="badge">Mutation</span> EntityResponse</div><div class="params__desc">Create a new entity.</div></div>
+              <div class="params__row"><div class="params__name">updateEntity</div><div class="params__meta"><span class="badge">Mutation</span> EntityResponse</div><div class="params__desc">Update an existing entity.</div></div>
+              <div class="params__row"><div class="params__name">deleteEntity</div><div class="params__meta"><span class="badge">Mutation</span> EntityResponse</div><div class="params__desc">Delete an entity.</div></div>
+              <div class="params__row"><div class="params__name">createEntityRequest</div><div class="params__meta"><span class="badge">Mutation</span> EntityRequestResponse</div><div class="params__desc">User requests to join an entity.</div></div>
+              <div class="params__row"><div class="params__name">acceptEntityJoinRequest</div><div class="params__meta"><span class="badge">Mutation</span> EntityRequestResponse</div><div class="params__desc">Accept a join request.</div></div>
+              <div class="params__row"><div class="params__name">rejectEntityJoinRequest</div><div class="params__meta"><span class="badge">Mutation</span> EntityRequestResponse</div><div class="params__desc">Reject a join request.</div></div>
+            </div>
+
+            <h3 class="h3">Core Types</h3>
+            <pre class="code"><code>enum EntityType { INSTITUTE SCHOOL DEPARTMENT CLUB TEAM OTHER }
+enum EntityStatus { ACTIVE INACTIVE ARCHIVED }
+enum EntityVisibility { PUBLIC PRIVATE ORGANIZATION }
+
+type EntitySettings {
+  allowMembershipRequests: Boolean!
+  requireApproval: Boolean!
+  visibility: EntityVisibility!
+  allowPosts: Boolean!
+  allowEvents: Boolean!
+  allowAnnouncements: Boolean!
+}
+
+type Entity {
+  entityId: String!
+  entityChatId: String
+  name: String!
+  type: EntityType!
+  code: String
+  description: String
+  slug: String
+  organizationId: String
+  parentEntityId: String
+  parentEntityName: String
+  status: EntityStatus!
+  logo: String
+  banner: String
+  settings: EntitySettings!
+  createdBy: String!
+  createdAt: String!
+  updatedAt: String!
+}</code></pre>
+
+            <div class="callout callout--warn" style="margin-top:12px;">
+              <div class="callout__title">Schema warning</div>
+              <p class="muted" style="margin:0;">Another module (events-log) defines <code>EntityType</code> with different values. If you merge into one schema, rename/merge to avoid collisions.</p>
+            </div>
+          </section>
+
+          <!-- Entity invites module -->
+          <section class="doc__section" id="entity-invites">
+            <div class="sectionhead">
+              <h2 class="h2">entity-invites</h2>
+              <p class="muted">Invite users to entities (create, bulk-create, accept/reject/cancel).</p>
+            </div>
+
+            <h3 class="h3">Queries</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">getEntityInvites</div><div class="params__meta"><span class="badge">Query</span> EntityInvitesResponse</div><div class="params__desc">Args: <code>input: GetEntityInvitesInput!</code></div></div>
+              <div class="params__row"><div class="params__name">getEntityInviteById</div><div class="params__meta"><span class="badge">Query</span> EntityInviteResponse</div><div class="params__desc">Args: <code>entityInviteId: String!</code></div></div>
+              <div class="params__row"><div class="params__name">getUserEntityInvites</div><div class="params__meta"><span class="badge">Query</span> EntityInvitesResponse</div><div class="params__desc">Args: <code>input: GetUserEntityInvitesInput</code></div></div>
+            </div>
+
+            <h3 class="h3">Mutations</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">createEntityInvite</div><div class="params__meta"><span class="badge">Mutation</span> EntityInviteResponse</div><div class="params__desc">Create a single invite.</div></div>
+              <div class="params__row"><div class="params__name">bulkCreateEntityInvites</div><div class="params__meta"><span class="badge">Mutation</span> BulkEntityInviteResponse</div><div class="params__desc">Bulk create invites.</div></div>
+              <div class="params__row"><div class="params__name">acceptEntityInvite</div><div class="params__meta"><span class="badge">Mutation</span> EntityInviteResponse</div><div class="params__desc">Accept an invite.</div></div>
+              <div class="params__row"><div class="params__name">rejectEntityInvite</div><div class="params__meta"><span class="badge">Mutation</span> EntityInviteResponse</div><div class="params__desc">Reject an invite.</div></div>
+              <div class="params__row"><div class="params__name">cancelEntityInvite</div><div class="params__meta"><span class="badge">Mutation</span> EntityInviteResponse</div><div class="params__desc">Cancel an invite.</div></div>
+            </div>
+
+            <h3 class="h3">Types</h3>
+            <pre class="code"><code>enum EntityInviteStatus { PENDING ACCEPTED REJECTED EXPIRED CANCELLED }
+
+type EntityInvite {
+  entityInviteId: ID!
+  entityId: String!
+  entity: Entity
+  email: String!
+  roleId: String!
+  roleName: String
+  status: EntityInviteStatus!
+  invitedBy: String!
+  invitedByName: String
+  expiresAt: String
+  acceptedAt: String
+  rejectedAt: String
+  message: String
+  createdAt: String!
+  updatedAt: String!
+}</code></pre>
+          </section>
+
+          <!-- Network module -->
+          <section class="doc__section" id="network">
+            <div class="sectionhead">
+              <h2 class="h2">network</h2>
+              <p class="muted">Networks (basic + admin entry points).</p>
+            </div>
+
+            <h3 class="h3">Queries</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">getNetworks</div><div class="params__meta"><span class="badge">Query</span> NetworkResponse</div><div class="params__desc">List networks.</div></div>
+              <div class="params__row"><div class="params__name">getUserNetworks</div><div class="params__meta"><span class="badge">Query</span> NetworksResponse!</div><div class="params__desc">Networks current user belongs to.</div></div>
+              <div class="params__row"><div class="params__name">getNetworkBySlug</div><div class="params__meta"><span class="badge">Query</span> NetworkResponse!</div><div class="params__desc">Args: <code>slug: String!</code></div></div>
+              <div class="params__row"><div class="params__name">getNetworkAdminDashboard</div><div class="params__meta"><span class="badge">Query</span> NetworkAdminDashboardResponse!</div><div class="params__desc">Admin dashboard stats.</div></div>
+            </div>
+
+            <h3 class="h3">Mutations</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">createNetwork</div><div class="params__meta"><span class="badge">Mutation</span> NetworkResponse</div><div class="params__desc">Create a network.</div></div>
+            </div>
+
+            <h3 class="h3">Type</h3>
+            <pre class="code"><code>type Network {
+  networkId: String!
+  name: String!
+  slug: String!
+  description: String!
+  status: String!
+  ownerId: String
+  ownerEmail: String!
+  rootEntityId: String!
+  createdAt: String!
+  updatedAt: String!
+  createdBy: String!
+  updatedBy: String!
+}
+
+input CreateNetworkInput {
+  name: String!
+  slug: String!
+  description: String!
+  ownerEmail: String!
+  rootEntityId: String!
+  status: String
+}</code></pre>
+          </section>
+
+          <!-- Network admin module -->
+          <section class="doc__section" id="network-admin">
+            <div class="sectionhead">
+              <h2 class="h2">network-admin</h2>
+              <p class="muted">Network admin dashboards: members, entities, events, jobs, settings.</p>
+            </div>
+
+            <h3 class="h3">Queries</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">getNetworkAdminMembers</div><div class="params__meta"><span class="badge">Query</span> NetworkAdminMembersResponse!</div><div class="params__desc">List members with filters (page/limit/search/status/role).</div></div>
+              <div class="params__row"><div class="params__name">getNetworkAdminEntities</div><div class="params__meta"><span class="badge">Query</span> NetworkAdminEntitiesResponse!</div><div class="params__desc">Entity moderation list.</div></div>
+              <div class="params__row"><div class="params__name">getNetworkAdminEvents</div><div class="params__meta"><span class="badge">Query</span> NetworkAdminEventsResponse!</div><div class="params__desc">Event moderation list.</div></div>
+              <div class="params__row"><div class="params__name">getNetworkAdminJobs</div><div class="params__meta"><span class="badge">Query</span> NetworkAdminJobsResponse!</div><div class="params__desc">Jobs moderation list.</div></div>
+              <div class="params__row"><div class="params__name">getNetworkAdminSettings</div><div class="params__meta"><span class="badge">Query</span> NetworkAdminSettingsResponse!</div><div class="params__desc">Network settings.</div></div>
+            </div>
+
+            <h3 class="h3">Mutations</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">updateNetworkSettings</div><div class="params__meta"><span class="badge">Mutation</span> NetworkAdminSettingsResponse!</div><div class="params__desc">Update settings.</div></div>
+              <div class="params__row"><div class="params__name">updateMemberStatus</div><div class="params__meta"><span class="badge">Mutation</span> NetworkAdminMembersResponse!</div><div class="params__desc">Suspend/activate member.</div></div>
+              <div class="params__row"><div class="params__name">suspendEntity</div><div class="params__meta"><span class="badge">Mutation</span> NetworkAdminEntitiesResponse!</div><div class="params__desc">Suspend entity.</div></div>
+              <div class="params__row"><div class="params__name">activateEntity</div><div class="params__meta"><span class="badge">Mutation</span> NetworkAdminEntitiesResponse!</div><div class="params__desc">Activate entity.</div></div>
+              <div class="params__row"><div class="params__name">verifyEvent</div><div class="params__meta"><span class="badge">Mutation</span> NetworkAdminEventsResponse!</div><div class="params__desc">Verify event.</div></div>
+              <div class="params__row"><div class="params__name">deactivateEvent</div><div class="params__meta"><span class="badge">Mutation</span> NetworkAdminEventsResponse!</div><div class="params__desc">Deactivate event.</div></div>
+              <div class="params__row"><div class="params__name">toggleJobStatus</div><div class="params__meta"><span class="badge">Mutation</span> NetworkAdminJobsResponse!</div><div class="params__desc">Enable/disable job.</div></div>
+            </div>
+
+            <h3 class="h3">Admin Types (examples)</h3>
+            <pre class="code"><code>type NetworkAdminStats { totalMembers: Int! activeEntities: Int! upcomingEvents: Int! pendingReports: Int! }
+
+type NetworkAdminMember {
+  userId: String!
+  username: String!
+  email: String!
+  firstName: String!
+  lastName: String!
+  role: String!
+  joinedAt: String!
+  status: String!
+  avatar: String
+}
+
+type NetworkAdminEntity {
+  entityId: String!
+  name: String!
+  type: String!
+  status: String!
+  members: Int!
+  admins: Int!
+  createdAt: String!
+  updatedAt: String!
+}</code></pre>
+          </section>
+
+          <!-- Network invites module -->
+          <section class="doc__section" id="network-invites">
+            <div class="sectionhead">
+              <h2 class="h2">network-invites</h2>
+              <p class="muted">Invite users to a network (create, bulk, accept/reject/cancel).</p>
+            </div>
+
+            <h3 class="h3">Key Operations</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">getNetworkInvites</div><div class="params__meta"><span class="badge">Query</span> NetworkInvitesResponse</div><div class="params__desc">Args: <code>input: GetNetworkInvitesInput!</code></div></div>
+              <div class="params__row"><div class="params__name">createNetworkInvite</div><div class="params__meta"><span class="badge">Mutation</span> NetworkInviteResponse</div><div class="params__desc">Create an invite.</div></div>
+              <div class="params__row"><div class="params__name">bulkCreateNetworkInvites</div><div class="params__meta"><span class="badge">Mutation</span> BulkNetworkInviteResponse</div><div class="params__desc">Bulk invites.</div></div>
+              <div class="params__row"><div class="params__name">acceptNetworkInvite</div><div class="params__meta"><span class="badge">Mutation</span> NetworkInviteResponse</div><div class="params__desc">Accept invite.</div></div>
+              <div class="params__row"><div class="params__name">rejectNetworkInvite</div><div class="params__meta"><span class="badge">Mutation</span> NetworkInviteResponse</div><div class="params__desc">Reject invite.</div></div>
+              <div class="params__row"><div class="params__name">cancelNetworkInvite</div><div class="params__meta"><span class="badge">Mutation</span> NetworkInviteResponse</div><div class="params__desc">Cancel invite.</div></div>
+            </div>
+
+            <h3 class="h3">Types</h3>
+            <pre class="code"><code>enum NetworkInviteStatus { PENDING ACCEPTED REJECTED EXPIRED CANCELLED }
+
+type NetworkInvite {
+  networkInviteId: ID!
+  networkId: String!
+  network: Network
+  email: String!
+  roleId: String!
+  roleName: String
+  status: NetworkInviteStatus!
+  invitedBy: String!
+  invitedByName: String
+  expiresAt: String
+  acceptedAt: String
+  rejectedAt: String
+  message: String
+  createdAt: String!
+  updatedAt: String!
+}</code></pre>
+          </section>
+
+          <!-- Entity chat module -->
+          <section class="doc__section" id="entity-chat">
+            <div class="sectionhead">
+              <h2 class="h2">entity-chat</h2>
+              <p class="muted">Simple entity chat (not the same as 1:1 messages or group-chat).</p>
+            </div>
+
+            <h3 class="h3">Queries</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">getEntityChat</div><div class="params__meta"><span class="badge">Query</span> EntityChatResponse!</div><div class="params__desc">Args: <code>input: GetEntityChatInput!</code></div></div>
+            </div>
+
+            <h3 class="h3">Mutations</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">createEntityChat</div><div class="params__meta"><span class="badge">Mutation</span> EntityChatResponse!</div><div class="params__desc">Create chat for entity.</div></div>
+              <div class="params__row"><div class="params__name">addMessageToEntityChat</div><div class="params__meta"><span class="badge">Mutation</span> EntityChatResponse!</div><div class="params__desc">Append message to entity chat.</div></div>
+            </div>
+
+            <h3 class="h3">Types</h3>
+            <pre class="code"><code>type EntityChat {
+  entityChatId: String!
+  entityId: String!
+  userId: String!
+  messages: [EntityChatMessage!]!
+}
+
+type EntityChatMessage { userId: String! message: String! createdAt: String! }</code></pre>
+          </section>
+
+          <!-- Events log module -->
+          <section class="doc__section" id="events-log">
+            <div class="sectionhead">
+              <h2 class="h2">events-log</h2>
+              <p class="muted">Audit logs and statistics for actions in the platform.</p>
+            </div>
+
+            <h3 class="h3">Queries</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">getEventsLogs</div><div class="params__meta"><span class="badge">Query</span> EventsLogsResponse</div><div class="params__desc">Filtered logs + options (pagination/sort).</div></div>
+              <div class="params__row"><div class="params__name">getEventsLogsByUserId</div><div class="params__meta"><span class="badge">Query</span> EventsLogsResponse</div><div class="params__desc">Args: <code>userId: String!</code></div></div>
+              <div class="params__row"><div class="params__name">getEventsLogsByEntity</div><div class="params__meta"><span class="badge">Query</span> EventsLogsResponse</div><div class="params__desc">Args: <code>entityType: EntityType!</code>, <code>entityId: String!</code></div></div>
+              <div class="params__row"><div class="params__name">getEventsLogsStats</div><div class="params__meta"><span class="badge">Query</span> EventsLogStatsResponse</div><div class="params__desc">Aggregated stats for a filter.</div></div>
+            </div>
+
+            <h3 class="h3">Types</h3>
+            <pre class="code"><code>enum EventType { CREATE UPDATE DELETE LOGIN LOGOUT VIEW SEARCH EXPORT IMPORT OTHER }
+enum SortOrder { ASC DESC }
+
+type EventsLog {
+  logId: String!
+  eventType: EventType!
+  entityType: EntityType!
+  userId: String!
+  userEmail: String!
+  username: String!
+  description: String!
+  beforeData: JSON
+  afterData: JSON
+  changedFields: [String!]
+  createdAt: String!
+  updatedAt: String!
+}</code></pre>
+
+            <div class="callout callout--warn" style="margin-top:12px;">
+              <div class="callout__title">Schema warning</div>
+              <p class="muted" style="margin:0;">This module defines an <code>EntityType</code> enum different from the entity module. Merge carefully.</p>
+            </div>
+          </section>
+
+          <!-- Events module -->
+          <section class="doc__section" id="events">
+            <div class="sectionhead">
+              <h2 class="h2">events</h2>
+              <p class="muted">Events CRUD + RSVP. Note: defined as root Query/Mutation in the provided SDL.</p>
+            </div>
+
+            <h3 class="h3">Queries (root)</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">event</div><div class="params__meta"><span class="badge">Query</span> Event</div><div class="params__desc">Args: <code>id: ID!</code></div></div>
+              <div class="params__row"><div class="params__name">events</div><div class="params__meta"><span class="badge">Query</span> [Event!]!</div><div class="params__desc">Args: <code>limit</code>, <code>offset</code>, <code>eventScope</code></div></div>
+            </div>
+
+            <h3 class="h3">Mutations (root)</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">createEvent</div><div class="params__meta"><span class="badge">Mutation</span> Event!</div><div class="params__desc">Create an event.</div></div>
+              <div class="params__row"><div class="params__name">updateEvent</div><div class="params__meta"><span class="badge">Mutation</span> Event!</div><div class="params__desc">Update an event.</div></div>
+              <div class="params__row"><div class="params__name">deleteEvent</div><div class="params__meta"><span class="badge">Mutation</span> Boolean!</div><div class="params__desc">Delete an event.</div></div>
+              <div class="params__row"><div class="params__name">addEventAdmin</div><div class="params__meta"><span class="badge">Mutation</span> Event</div><div class="params__desc">Grant admin rights.</div></div>
+              <div class="params__row"><div class="params__name">rsvpEvent</div><div class="params__meta"><span class="badge">Mutation</span> Event</div><div class="params__desc">RSVP to an event.</div></div>
+            </div>
+
+            <h3 class="h3">Type</h3>
+            <pre class="code"><code>type Event {
+  id: ID!
+  title: String!
+  description: String
+  mode: String
+  coverImage: String
+  startDate: String!
+  endDate: String!
+  isVerified: Boolean
+  isActive: Boolean!
+  eventScope: String!
+  admins: [String]
+  followers: [String]
+}</code></pre>
+
+            <div class="callout callout--warn" style="margin-top:12px;">
+              <div class="callout__title">Merge note</div>
+              <p class="muted" style="margin:0;">Unlike most modules using <code>extend type Query</code>, this SDL declares root <code>type Query</code> and <code>type Mutation</code>. Ensure schema merging does not overwrite your main roots.</p>
+            </div>
+          </section>
+
+          <!-- Super admin module -->
+          <section class="doc__section" id="super-admin">
+            <div class="sectionhead">
+              <h2 class="h2">super-admin</h2>
+              <p class="muted">Super admin authentication + organization management.</p>
+            </div>
+
+            <h3 class="h3">Queries</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">getSuperAdminDashboardStats</div><div class="params__meta"><span class="badge">Query</span> SuperAdminDashboardStats!</div><div class="params__desc">System-level summary stats.</div></div>
+              <div class="params__row"><div class="params__name">getRecentActivities</div><div class="params__meta"><span class="badge">Query</span> [RecentActivity!]!</div><div class="params__desc">Args: <code>limit: Int = 10</code></div></div>
+              <div class="params__row"><div class="params__name">getSystemStatus</div><div class="params__meta"><span class="badge">Query</span> SystemStatus!</div><div class="params__desc">Health/status info.</div></div>
+              <div class="params__row"><div class="params__name">getOrganizationAdmins</div><div class="params__meta"><span class="badge">Query</span> OrganizationAdminsResponse!</div><div class="params__desc">Paginated admin listing.</div></div>
+              <div class="params__row"><div class="params__name">getSuperAdminSettings</div><div class="params__meta"><span class="badge">Query</span> SuperAdminSettings!</div><div class="params__desc">Settings.</div></div>
+            </div>
+
+            <h3 class="h3">Mutations</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">superAdminLogin</div><div class="params__meta"><span class="badge">Mutation</span> SuperAdminAuthResponse!</div><div class="params__desc">Login.</div></div>
+              <div class="params__row"><div class="params__name">verifySuperAdmin2FA</div><div class="params__meta"><span class="badge">Mutation</span> SuperAdminAuthResponse!</div><div class="params__desc">2FA verify.</div></div>
+              <div class="params__row"><div class="params__name">updateSuperAdminProfile</div><div class="params__meta"><span class="badge">Mutation</span> UserResponse!</div><div class="params__desc">Update profile.</div></div>
+              <div class="params__row"><div class="params__name">createOrganization</div><div class="params__meta"><span class="badge">Mutation</span> OrganizationResponse!</div><div class="params__desc">Create organization.</div></div>
+              <div class="params__row"><div class="params__name">updateOrganization</div><div class="params__meta"><span class="badge">Mutation</span> OrganizationResponse!</div><div class="params__desc">Update organization.</div></div>
+              <div class="params__row"><div class="params__name">deleteOrganization</div><div class="params__meta"><span class="badge">Mutation</span> OrganizationResponse!</div><div class="params__desc">Delete organization.</div></div>
+              <div class="params__row"><div class="params__name">assignAdmin</div><div class="params__meta"><span class="badge">Mutation</span> OrganizationAdminResponse!</div><div class="params__desc">Assign an admin.</div></div>
+              <div class="params__row"><div class="params__name">removeAdmin</div><div class="params__meta"><span class="badge">Mutation</span> OrganizationAdminResponse!</div><div class="params__desc">Remove an admin.</div></div>
+            </div>
+
+            <div class="callout callout--warn" style="margin-top:12px;">
+              <div class="callout__title">Note</div>
+              <p class="muted" style="margin:0;">The PDF indicates this module references additional types (CreateOrganizationInput, OrganizationResponse, etc.) that may live in other typedef files.</p>
+            </div>
+          </section>
+
+          <!-- Server-side models -->
+          <section class="doc__section" id="server-side-models">
+            <div class="sectionhead">
+              <h2 class="h2">verification & invites (server-side)</h2>
+              <p class="muted">Backend-only TypeScript models/enums used for verification and invite workflows (not GraphQL operations).</p>
+            </div>
+
+            <pre class="code"><code>interface IInvite {
+  inviteId: string;
+  entityId: string;
+  slug: string;
+  status: 'pending' | 'accepted' | 'rejected';
+  email: string;
+  metadata?: IInviteMetadata;
+}
+
+enum VerificationChannel { EMAIL, SMS, LINK, ADMIN_REQUEST, EMAIL_DOMAIN, EMAIL_DATABASE }
+enum VerificationPurpose { ENTITY_JOIN, ENTITY_REQUEST, ENTITY_INVITE, ENTITY_MEMBERSHIP }
+enum VerificationStatus { PENDING, VERIFIED, EXPIRED }</code></pre>
+          </section>
+        </article>
+      </main>
+
+      <!-- Right TOC -->
+      <aside class="toc" aria-label="On this page">
+        <div class="toc__inner">
+          <div class="toc__title">On this page</div>
+          <nav id="toc"></nav>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
