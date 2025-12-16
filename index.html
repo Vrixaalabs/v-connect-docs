@@ -17,7 +17,7 @@
 
         <a class="brand" href="#">
           <span class="brand__mark" aria-hidden="true">▦</span>
-          <span class="brand__name">VrixaaLavb</span>
+          <span class="brand__name">VrixaaLabs</span>
           <span class="brand__sub">API Docs</span>
         </a>
 
@@ -61,36 +61,60 @@
 
           <div class="sidebar__section">
             <div class="sidebar__title">Modules</div>
+<details class="navgroup" open>
+  <summary class="navgroup__summary">Core</summary>
+  <div class="navgroup__items">
+    <a class="navlink" href="#global">global</a>
+    <a class="navlink" href="#address">address</a>
+    <a class="navlink" href="#common">common</a>
+  </div>
+</details>
 
-            <details class="navgroup" open>
-              <summary class="navgroup__summary">People</summary>
-              <div class="navgroup__items">
-                <a class="navlink" href="#user">user</a>
-                <a class="navlink" href="#alumni">alumni</a>
-              </div>
-            </details>
+<details class="navgroup" open>
+  <summary class="navgroup__summary">People</summary>
+  <div class="navgroup__items">
+    <a class="navlink" href="#user">user</a>
+    <a class="navlink" href="#alumni">alumni</a>
+    <a class="navlink" href="#connections">connections</a>
+  </div>
+</details>
 
-            <details class="navgroup" open>
-              <summary class="navgroup__summary">Messaging</summary>
-              <div class="navgroup__items">
-                <a class="navlink" href="#messages">messages</a>
-                <a class="navlink" href="#group-chat">group-chat</a>
-              </div>
-            </details>
+<details class="navgroup" open>
+  <summary class="navgroup__summary">Organizations</summary>
+  <div class="navgroup__items">
+    <a class="navlink" href="#admin">admin</a>
+    <a class="navlink" href="#entity">entity</a>
+    <a class="navlink" href="#entity-invites">entity-invites</a>
+    <a class="navlink" href="#network">network</a>
+    <a class="navlink" href="#network-admin">network-admin</a>
+    <a class="navlink" href="#network-invites">network-invites</a>
+    <a class="navlink" href="#super-admin">super-admin</a>
+  </div>
+</details>
 
-            <details class="navgroup" open>
-              <summary class="navgroup__summary">Organizations</summary>
-              <div class="navgroup__items">
-                <a class="navlink" href="#organization">organization</a>
-              </div>
-            </details>
+<details class="navgroup" open>
+  <summary class="navgroup__summary">Messaging</summary>
+  <div class="navgroup__items">
+    <a class="navlink" href="#messages">messages</a>
+    <a class="navlink" href="#group-chat">group-chat</a>
+    <a class="navlink" href="#entity-chat">entity-chat</a>
+  </div>
+</details>
 
-            <details class="navgroup">
-              <summary class="navgroup__summary">Other</summary>
-              <div class="navgroup__items">
-                <a class="navlink" href="#notes">notes</a>
-              </div>
-            </details>
+<details class="navgroup" open>
+  <summary class="navgroup__summary">Events & Logs</summary>
+  <div class="navgroup__items">
+    <a class="navlink" href="#events-log">events-log</a>
+    <a class="navlink" href="#events">events</a>
+  </div>
+</details>
+
+<details class="navgroup">
+  <summary class="navgroup__summary">Server-side</summary>
+  <div class="navgroup__items">
+    <a class="navlink" href="#server-side-models">verification & invites</a>
+  </div>
+</details>
           </div>
 
           <div class="sidebar__footer">
@@ -219,9 +243,7 @@ type Subscription { _empty: String }</code></pre>
             <div class="callout callout--warn">
               <div class="callout__title">These must exist somewhere in your schema</div>
               <p class="muted" style="margin:0;">
-                <code>DateTime</code>, <code>PageInfo</code>, <code>MessageType</code>, <code>MessageStatus</code>, <code>Mention</code>,
-                <code>Poll</code>, <code>ForwardedMessage</code>, <code>ReadReceipt</code>, <code>UserTypingEvent</code>, <code>CreatePollInput</code>,
-                <code>JoinRequestResponse</code>
+                <code>DateTime</code>, <code>JSON</code>, <code>PageInfo</code>, <code>AddressType</code>, <code>Map</code>, <code>Address</code>, <code>Entity</code>, <code>Network</code>, <code>MessageType</code>, <code>MessageStatus</code>, <code>Mention</code>, <code>Poll</code>, <code>ForwardedMessage</code>, <code>ReadReceipt</code>, <code>UserTypingEvent</code>, <code>CreatePollInput</code>
               </p>
             </div>
           </section>
@@ -725,6 +747,226 @@ console.log(await res.json());</code></pre>
             </div>
           </section>
 
+          
+          <!-- Address -->
+          <section class="doc__section" id="address">
+            <div class="sectionhead">
+              <h2 class="h2">address</h2>
+              <p class="muted">Address management (create, update, delete, fetch by id).</p>
+            </div>
+
+            <h4 class="h4">Types</h4>
+            <pre class="code"><code>type AddressResult {
+  success: Boolean!
+  message: String!
+  address: Address
+}
+
+type DeleteAddressResult {
+  success: Boolean!
+  message: String!
+}</code></pre>
+
+            <h4 class="h4">Query</h4>
+            <div class="params">
+              <div class="params__row">
+                <div class="params__name">getAddressById</div>
+                <div class="params__meta"><span class="badge">Query</span> AddressResult!</div>
+                <div class="params__desc">Args: <code>addressId: String!</code></div>
+              </div>
+            </div>
+
+            <h4 class="h4">Mutations</h4>
+            <div class="params">
+              <div class="params__row">
+                <div class="params__name">createAddress</div>
+                <div class="params__meta"><span class="badge">Mutation</span> AddressResult!</div>
+                <div class="params__desc">Args: <code>input: AddressInput!</code></div>
+              </div>
+              <div class="params__row">
+                <div class="params__name">updateAddress</div>
+                <div class="params__meta"><span class="badge">Mutation</span> AddressResult!</div>
+                <div class="params__desc">Args: <code>addressId: String!</code>, <code>input: AddressInput!</code></div>
+              </div>
+              <div class="params__row">
+                <div class="params__name">deleteAddress</div>
+                <div class="params__meta"><span class="badge">Mutation</span> AddressResult!</div>
+                <div class="params__desc">Args: <code>addressId: String!</code></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Admin -->
+          <section class="doc__section" id="admin">
+            <div class="sectionhead">
+              <h2 class="h2">admin</h2>
+              <p class="muted">Admin APIs for organization join-request moderation.</p>
+            </div>
+
+            <h4 class="h4">Types</h4>
+            <pre class="code"><code>type OrganizationJoinRequest {
+  requestId: ID!
+  organizationId: ID!
+  userId: ID!
+  status: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type JoinRequestResponse {
+  success: Boolean!
+  message: String!
+  request: OrganizationJoinRequest
+}
+
+type JoinRequestsResponse {
+  success: Boolean!
+  message: String!
+  requests: [OrganizationJoinRequest!]!
+  total: Int!
+  page: Int!
+  limit: Int!
+}</code></pre>
+
+            <h4 class="h4">Queries</h4>
+            <div class="params">
+              <div class="params__row">
+                <div class="params__name">getJoinRequests</div>
+                <div class="params__meta"><span class="badge">Query</span> JoinRequestsResponse!</div>
+                <div class="params__desc">Args: <code>organizationId: ID!</code>, <code>status: String</code>, <code>page: Int = 1</code>, <code>limit: Int = 10</code></div>
+              </div>
+              <div class="params__row">
+                <div class="params__name">getJoinRequest</div>
+                <div class="params__meta"><span class="badge">Query</span> JoinRequestResponse!</div>
+                <div class="params__desc">Args: <code>requestId: ID!</code></div>
+              </div>
+            </div>
+
+            <h4 class="h4">Mutations</h4>
+            <div class="params">
+              <div class="params__row">
+                <div class="params__name">approveJoinRequest</div>
+                <div class="params__meta"><span class="badge">Mutation</span> JoinRequestResponse!</div>
+                <div class="params__desc">Args: <code>requestId: ID!</code></div>
+              </div>
+              <div class="params__row">
+                <div class="params__name">rejectJoinRequest</div>
+                <div class="params__meta"><span class="badge">Mutation</span> JoinRequestResponse!</div>
+                <div class="params__desc">Args: <code>requestId: ID!</code>, <code>reason: String!</code></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Connections -->
+          <section class="doc__section" id="connections">
+            <div class="sectionhead">
+              <h2 class="h2">connections</h2>
+              <p class="muted">Friend connections, profiles, suggestions, and network stats.</p>
+            </div>
+
+            <h4 class="h4">Core types</h4>
+            <pre class="code"><code>type FriendConnection {
+  connectionId: ID!
+  userId: ID!
+  friendId: ID!
+  status: FriendConnectionStatus!
+  initiatedBy: ID!
+  acceptedAt: DateTime
+  rejectedAt: DateTime
+  blockedAt: DateTime
+  blockedBy: ID
+  metadata: FriendConnectionMetadata
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type FriendConnectionMetadata {
+  lastInteractionAt: DateTime
+  mutualFriends: Int
+  commonGroups: Int
+}
+
+enum FriendConnectionStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  BLOCKED
+}
+
+type FriendProfile {
+  profileId: ID!
+  userId: ID!
+  visibility: ProfileVisibility!
+  bio: String
+  interests: [String!]
+  education: [Education!]
+  experience: [Experience!]
+  skills: [String!]
+  socialLinks: [SocialLink!]
+  achievements: [Achievement!]
+  stats: ProfileStats
+  lastActive: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+enum ProfileVisibility {
+  PUBLIC
+  FRIENDS
+  PRIVATE
+}</code></pre>
+
+            <h4 class="h4">Inputs</h4>
+            <pre class="code"><code>input CreateFriendConnectionInput { friendId: ID! }
+input UpdateFriendConnectionInput { status: FriendConnectionStatus! }
+input UpdateFriendProfileInput {
+  visibility: ProfileVisibility
+  bio: String
+  interests: [String!]
+  education: [EducationInput!]
+  experience: [ExperienceInput!]
+  skills: [String!]
+  socialLinks: [SocialLinkInput!]
+  achievements: [AchievementInput!]
+}</code></pre>
+
+            <h4 class="h4">Responses</h4>
+            <pre class="code"><code>type FriendConnectionResponse {
+  success: Boolean!
+  message: String!
+  connection: FriendConnection
+}
+
+type FriendProfileResponse {
+  success: Boolean!
+  message: String!
+  profile: FriendProfile
+}
+
+type FriendConnectionsResponse {
+  success: Boolean!
+  message: String!
+  connections: [FriendConnection!]!
+  total: Int!
+  page: Int!
+  limit: Int!
+  totalPages: Int!
+}
+
+type FriendSuggestionsResponse {
+  success: Boolean!
+  message: String!
+  suggestions: [FriendProfile!]!
+  total: Int!
+}
+
+type NetworkStatsResponse {
+  success: Boolean!
+  message: String!
+  stats: NetworkStats!
+}</code></pre>
+          </section>
+
           <section class="doc__section" id="notes">
             <h2 class="h2">notes</h2>
             <div class="callout callout--warn">
@@ -738,6 +980,502 @@ console.log(await res.json());</code></pre>
           <footer class="doc__footer">
             <div class="muted">Docs UI is original; content is based on the SDL you provided.</div>
           </footer>
+        
+          <!-- Global module -->
+          <section class="doc__section" id="global">
+            <div class="sectionhead">
+              <h2 class="h2">global</h2>
+              <p class="muted">Shared primitives used across modules (addresses, maps).</p>
+            </div>
+
+            <h3 class="h3">Enums</h3>
+            <pre class="code"><code>enum AddressType { Home Work Billing None }</code></pre>
+
+            <h3 class="h3">Types</h3>
+            <pre class="code"><code>type Map { latitude: Float! longitude: Float! }
+
+type Address {
+  addressId: ID!
+  addressLine: String!
+  city: String!
+  region: String!
+  postalCode: String!
+  country: String!
+  map: Map!
+  isPrimary: Boolean!
+  type: AddressType!
+  createdAt: String!
+  updatedAt: String!
+}</code></pre>
+
+            <h3 class="h3">Inputs</h3>
+            <pre class="code"><code>input MapInput { latitude: Float! longitude: Float! }
+
+input AddressInput {
+  addressLine: String!
+  city: String!
+  region: String!
+  postalCode: String!
+  country: String!
+  map: MapInput!
+  isPrimary: Boolean
+  type: AddressType
+}</code></pre>
+          </section>
+
+          <!-- Common module -->
+          <section class="doc__section" id="common">
+            <div class="sectionhead">
+              <h2 class="h2">common</h2>
+              <p class="muted">Email domain verification flow (send code + verify code).</p>
+            </div>
+
+            <h3 class="h3">Mutations</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">sendDomainEmailVerificationCode</div><div class="params__meta"><span class="badge">Mutation</span> EmailDomainVerificationResponse</div><div class="params__desc">Send a verification token to an email domain.</div></div>
+              <div class="params__row"><div class="params__name">verifyDomainEmailVerificationCode</div><div class="params__meta"><span class="badge">Mutation</span> EmailDomainVerificationResponse</div><div class="params__desc">Verify the token for the email+entity.</div></div>
+            </div>
+
+            <h3 class="h3">Types & Inputs</h3>
+            <pre class="code"><code>type CommonResponse { success: Boolean! message: String! }
+
+input SendDomainEmailVerificationCodeInput {
+  email: String!
+  metadata: EmailDomainVerificationMetadataInput!
+  entityId: String!
+}
+
+input VerifyDomainEmailVerificationCodeInput {
+  token: String!
+  email: String!
+  entityId: String!
+}
+
+input EmailDomainVerificationMetadataInput {
+  fullName: String!
+  rollNumber: String!
+  batch: String!
+}
+
+type EmailDomainVerificationResponse { success: Boolean! message: String! }</code></pre>
+          </section>
+
+          <!-- Entity module -->
+          <section class="doc__section" id="entity">
+            <div class="sectionhead">
+              <h2 class="h2">entity</h2>
+              <p class="muted">Entities (institutes/departments/clubs): CRUD, members, requests, stats, search.</p>
+            </div>
+
+            <h3 class="h3">Key Queries</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">getUserEntities</div><div class="params__meta"><span class="badge">Query</span> EntitiesResponse</div><div class="params__desc">Entities the current user belongs to.</div></div>
+              <div class="params__row"><div class="params__name">getEntityBySlug</div><div class="params__meta"><span class="badge">Query</span> EntityResponse</div><div class="params__desc">Args: <code>slug: String!</code></div></div>
+              <div class="params__row"><div class="params__name">getEntityRequests</div><div class="params__meta"><span class="badge">Query</span> EntityRequestsResponse</div><div class="params__desc">Args: <code>entityId: String!</code></div></div>
+              <div class="params__row"><div class="params__name">getEntityStats</div><div class="params__meta"><span class="badge">Query</span> EntityStatsResponse</div><div class="params__desc">Args: <code>organizationId: String!</code></div></div>
+            </div>
+
+            <h3 class="h3">Key Mutations</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">createEntity</div><div class="params__meta"><span class="badge">Mutation</span> EntityResponse</div><div class="params__desc">Create a new entity.</div></div>
+              <div class="params__row"><div class="params__name">updateEntity</div><div class="params__meta"><span class="badge">Mutation</span> EntityResponse</div><div class="params__desc">Update an existing entity.</div></div>
+              <div class="params__row"><div class="params__name">deleteEntity</div><div class="params__meta"><span class="badge">Mutation</span> EntityResponse</div><div class="params__desc">Delete an entity.</div></div>
+              <div class="params__row"><div class="params__name">createEntityRequest</div><div class="params__meta"><span class="badge">Mutation</span> EntityRequestResponse</div><div class="params__desc">User requests to join an entity.</div></div>
+              <div class="params__row"><div class="params__name">acceptEntityJoinRequest</div><div class="params__meta"><span class="badge">Mutation</span> EntityRequestResponse</div><div class="params__desc">Accept a join request.</div></div>
+              <div class="params__row"><div class="params__name">rejectEntityJoinRequest</div><div class="params__meta"><span class="badge">Mutation</span> EntityRequestResponse</div><div class="params__desc">Reject a join request.</div></div>
+            </div>
+
+            <h3 class="h3">Core Types</h3>
+            <pre class="code"><code>enum EntityType { INSTITUTE SCHOOL DEPARTMENT CLUB TEAM OTHER }
+enum EntityStatus { ACTIVE INACTIVE ARCHIVED }
+enum EntityVisibility { PUBLIC PRIVATE ORGANIZATION }
+
+type EntitySettings {
+  allowMembershipRequests: Boolean!
+  requireApproval: Boolean!
+  visibility: EntityVisibility!
+  allowPosts: Boolean!
+  allowEvents: Boolean!
+  allowAnnouncements: Boolean!
+}
+
+type Entity {
+  entityId: String!
+  entityChatId: String
+  name: String!
+  type: EntityType!
+  code: String
+  description: String
+  slug: String
+  organizationId: String
+  parentEntityId: String
+  parentEntityName: String
+  status: EntityStatus!
+  logo: String
+  banner: String
+  settings: EntitySettings!
+  createdBy: String!
+  createdAt: String!
+  updatedAt: String!
+}</code></pre>
+
+            <div class="callout callout--warn" style="margin-top:12px;">
+              <div class="callout__title">Schema warning</div>
+              <p class="muted" style="margin:0;">Another module (events-log) defines <code>EntityType</code> with different values. If you merge into one schema, rename/merge to avoid collisions.</p>
+            </div>
+          </section>
+
+          <!-- Entity invites module -->
+          <section class="doc__section" id="entity-invites">
+            <div class="sectionhead">
+              <h2 class="h2">entity-invites</h2>
+              <p class="muted">Invite users to entities (create, bulk-create, accept/reject/cancel).</p>
+            </div>
+
+            <h3 class="h3">Queries</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">getEntityInvites</div><div class="params__meta"><span class="badge">Query</span> EntityInvitesResponse</div><div class="params__desc">Args: <code>input: GetEntityInvitesInput!</code></div></div>
+              <div class="params__row"><div class="params__name">getEntityInviteById</div><div class="params__meta"><span class="badge">Query</span> EntityInviteResponse</div><div class="params__desc">Args: <code>entityInviteId: String!</code></div></div>
+              <div class="params__row"><div class="params__name">getUserEntityInvites</div><div class="params__meta"><span class="badge">Query</span> EntityInvitesResponse</div><div class="params__desc">Args: <code>input: GetUserEntityInvitesInput</code></div></div>
+            </div>
+
+            <h3 class="h3">Mutations</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">createEntityInvite</div><div class="params__meta"><span class="badge">Mutation</span> EntityInviteResponse</div><div class="params__desc">Create a single invite.</div></div>
+              <div class="params__row"><div class="params__name">bulkCreateEntityInvites</div><div class="params__meta"><span class="badge">Mutation</span> BulkEntityInviteResponse</div><div class="params__desc">Bulk create invites.</div></div>
+              <div class="params__row"><div class="params__name">acceptEntityInvite</div><div class="params__meta"><span class="badge">Mutation</span> EntityInviteResponse</div><div class="params__desc">Accept an invite.</div></div>
+              <div class="params__row"><div class="params__name">rejectEntityInvite</div><div class="params__meta"><span class="badge">Mutation</span> EntityInviteResponse</div><div class="params__desc">Reject an invite.</div></div>
+              <div class="params__row"><div class="params__name">cancelEntityInvite</div><div class="params__meta"><span class="badge">Mutation</span> EntityInviteResponse</div><div class="params__desc">Cancel an invite.</div></div>
+            </div>
+
+            <h3 class="h3">Types</h3>
+            <pre class="code"><code>enum EntityInviteStatus { PENDING ACCEPTED REJECTED EXPIRED CANCELLED }
+
+type EntityInvite {
+  entityInviteId: ID!
+  entityId: String!
+  entity: Entity
+  email: String!
+  roleId: String!
+  roleName: String
+  status: EntityInviteStatus!
+  invitedBy: String!
+  invitedByName: String
+  expiresAt: String
+  acceptedAt: String
+  rejectedAt: String
+  message: String
+  createdAt: String!
+  updatedAt: String!
+}</code></pre>
+          </section>
+
+          <!-- Network module -->
+          <section class="doc__section" id="network">
+            <div class="sectionhead">
+              <h2 class="h2">network</h2>
+              <p class="muted">Networks (basic + admin entry points).</p>
+            </div>
+
+            <h3 class="h3">Queries</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">getNetworks</div><div class="params__meta"><span class="badge">Query</span> NetworkResponse</div><div class="params__desc">List networks.</div></div>
+              <div class="params__row"><div class="params__name">getUserNetworks</div><div class="params__meta"><span class="badge">Query</span> NetworksResponse!</div><div class="params__desc">Networks current user belongs to.</div></div>
+              <div class="params__row"><div class="params__name">getNetworkBySlug</div><div class="params__meta"><span class="badge">Query</span> NetworkResponse!</div><div class="params__desc">Args: <code>slug: String!</code></div></div>
+              <div class="params__row"><div class="params__name">getNetworkAdminDashboard</div><div class="params__meta"><span class="badge">Query</span> NetworkAdminDashboardResponse!</div><div class="params__desc">Admin dashboard stats.</div></div>
+            </div>
+
+            <h3 class="h3">Mutations</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">createNetwork</div><div class="params__meta"><span class="badge">Mutation</span> NetworkResponse</div><div class="params__desc">Create a network.</div></div>
+            </div>
+
+            <h3 class="h3">Type</h3>
+            <pre class="code"><code>type Network {
+  networkId: String!
+  name: String!
+  slug: String!
+  description: String!
+  status: String!
+  ownerId: String
+  ownerEmail: String!
+  rootEntityId: String!
+  createdAt: String!
+  updatedAt: String!
+  createdBy: String!
+  updatedBy: String!
+}
+
+input CreateNetworkInput {
+  name: String!
+  slug: String!
+  description: String!
+  ownerEmail: String!
+  rootEntityId: String!
+  status: String
+}</code></pre>
+          </section>
+
+          <!-- Network admin module -->
+          <section class="doc__section" id="network-admin">
+            <div class="sectionhead">
+              <h2 class="h2">network-admin</h2>
+              <p class="muted">Network admin dashboards: members, entities, events, jobs, settings.</p>
+            </div>
+
+            <h3 class="h3">Queries</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">getNetworkAdminMembers</div><div class="params__meta"><span class="badge">Query</span> NetworkAdminMembersResponse!</div><div class="params__desc">List members with filters (page/limit/search/status/role).</div></div>
+              <div class="params__row"><div class="params__name">getNetworkAdminEntities</div><div class="params__meta"><span class="badge">Query</span> NetworkAdminEntitiesResponse!</div><div class="params__desc">Entity moderation list.</div></div>
+              <div class="params__row"><div class="params__name">getNetworkAdminEvents</div><div class="params__meta"><span class="badge">Query</span> NetworkAdminEventsResponse!</div><div class="params__desc">Event moderation list.</div></div>
+              <div class="params__row"><div class="params__name">getNetworkAdminJobs</div><div class="params__meta"><span class="badge">Query</span> NetworkAdminJobsResponse!</div><div class="params__desc">Jobs moderation list.</div></div>
+              <div class="params__row"><div class="params__name">getNetworkAdminSettings</div><div class="params__meta"><span class="badge">Query</span> NetworkAdminSettingsResponse!</div><div class="params__desc">Network settings.</div></div>
+            </div>
+
+            <h3 class="h3">Mutations</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">updateNetworkSettings</div><div class="params__meta"><span class="badge">Mutation</span> NetworkAdminSettingsResponse!</div><div class="params__desc">Update settings.</div></div>
+              <div class="params__row"><div class="params__name">updateMemberStatus</div><div class="params__meta"><span class="badge">Mutation</span> NetworkAdminMembersResponse!</div><div class="params__desc">Suspend/activate member.</div></div>
+              <div class="params__row"><div class="params__name">suspendEntity</div><div class="params__meta"><span class="badge">Mutation</span> NetworkAdminEntitiesResponse!</div><div class="params__desc">Suspend entity.</div></div>
+              <div class="params__row"><div class="params__name">activateEntity</div><div class="params__meta"><span class="badge">Mutation</span> NetworkAdminEntitiesResponse!</div><div class="params__desc">Activate entity.</div></div>
+              <div class="params__row"><div class="params__name">verifyEvent</div><div class="params__meta"><span class="badge">Mutation</span> NetworkAdminEventsResponse!</div><div class="params__desc">Verify event.</div></div>
+              <div class="params__row"><div class="params__name">deactivateEvent</div><div class="params__meta"><span class="badge">Mutation</span> NetworkAdminEventsResponse!</div><div class="params__desc">Deactivate event.</div></div>
+              <div class="params__row"><div class="params__name">toggleJobStatus</div><div class="params__meta"><span class="badge">Mutation</span> NetworkAdminJobsResponse!</div><div class="params__desc">Enable/disable job.</div></div>
+            </div>
+
+            <h3 class="h3">Admin Types (examples)</h3>
+            <pre class="code"><code>type NetworkAdminStats { totalMembers: Int! activeEntities: Int! upcomingEvents: Int! pendingReports: Int! }
+
+type NetworkAdminMember {
+  userId: String!
+  username: String!
+  email: String!
+  firstName: String!
+  lastName: String!
+  role: String!
+  joinedAt: String!
+  status: String!
+  avatar: String
+}
+
+type NetworkAdminEntity {
+  entityId: String!
+  name: String!
+  type: String!
+  status: String!
+  members: Int!
+  admins: Int!
+  createdAt: String!
+  updatedAt: String!
+}</code></pre>
+          </section>
+
+          <!-- Network invites module -->
+          <section class="doc__section" id="network-invites">
+            <div class="sectionhead">
+              <h2 class="h2">network-invites</h2>
+              <p class="muted">Invite users to a network (create, bulk, accept/reject/cancel).</p>
+            </div>
+
+            <h3 class="h3">Key Operations</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">getNetworkInvites</div><div class="params__meta"><span class="badge">Query</span> NetworkInvitesResponse</div><div class="params__desc">Args: <code>input: GetNetworkInvitesInput!</code></div></div>
+              <div class="params__row"><div class="params__name">createNetworkInvite</div><div class="params__meta"><span class="badge">Mutation</span> NetworkInviteResponse</div><div class="params__desc">Create an invite.</div></div>
+              <div class="params__row"><div class="params__name">bulkCreateNetworkInvites</div><div class="params__meta"><span class="badge">Mutation</span> BulkNetworkInviteResponse</div><div class="params__desc">Bulk invites.</div></div>
+              <div class="params__row"><div class="params__name">acceptNetworkInvite</div><div class="params__meta"><span class="badge">Mutation</span> NetworkInviteResponse</div><div class="params__desc">Accept invite.</div></div>
+              <div class="params__row"><div class="params__name">rejectNetworkInvite</div><div class="params__meta"><span class="badge">Mutation</span> NetworkInviteResponse</div><div class="params__desc">Reject invite.</div></div>
+              <div class="params__row"><div class="params__name">cancelNetworkInvite</div><div class="params__meta"><span class="badge">Mutation</span> NetworkInviteResponse</div><div class="params__desc">Cancel invite.</div></div>
+            </div>
+
+            <h3 class="h3">Types</h3>
+            <pre class="code"><code>enum NetworkInviteStatus { PENDING ACCEPTED REJECTED EXPIRED CANCELLED }
+
+type NetworkInvite {
+  networkInviteId: ID!
+  networkId: String!
+  network: Network
+  email: String!
+  roleId: String!
+  roleName: String
+  status: NetworkInviteStatus!
+  invitedBy: String!
+  invitedByName: String
+  expiresAt: String
+  acceptedAt: String
+  rejectedAt: String
+  message: String
+  createdAt: String!
+  updatedAt: String!
+}</code></pre>
+          </section>
+
+          <!-- Entity chat module -->
+          <section class="doc__section" id="entity-chat">
+            <div class="sectionhead">
+              <h2 class="h2">entity-chat</h2>
+              <p class="muted">Simple entity chat (not the same as 1:1 messages or group-chat).</p>
+            </div>
+
+            <h3 class="h3">Queries</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">getEntityChat</div><div class="params__meta"><span class="badge">Query</span> EntityChatResponse!</div><div class="params__desc">Args: <code>input: GetEntityChatInput!</code></div></div>
+            </div>
+
+            <h3 class="h3">Mutations</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">createEntityChat</div><div class="params__meta"><span class="badge">Mutation</span> EntityChatResponse!</div><div class="params__desc">Create chat for entity.</div></div>
+              <div class="params__row"><div class="params__name">addMessageToEntityChat</div><div class="params__meta"><span class="badge">Mutation</span> EntityChatResponse!</div><div class="params__desc">Append message to entity chat.</div></div>
+            </div>
+
+            <h3 class="h3">Types</h3>
+            <pre class="code"><code>type EntityChat {
+  entityChatId: String!
+  entityId: String!
+  userId: String!
+  messages: [EntityChatMessage!]!
+}
+
+type EntityChatMessage { userId: String! message: String! createdAt: String! }</code></pre>
+          </section>
+
+          <!-- Events log module -->
+          <section class="doc__section" id="events-log">
+            <div class="sectionhead">
+              <h2 class="h2">events-log</h2>
+              <p class="muted">Audit logs and statistics for actions in the platform.</p>
+            </div>
+
+            <h3 class="h3">Queries</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">getEventsLogs</div><div class="params__meta"><span class="badge">Query</span> EventsLogsResponse</div><div class="params__desc">Filtered logs + options (pagination/sort).</div></div>
+              <div class="params__row"><div class="params__name">getEventsLogsByUserId</div><div class="params__meta"><span class="badge">Query</span> EventsLogsResponse</div><div class="params__desc">Args: <code>userId: String!</code></div></div>
+              <div class="params__row"><div class="params__name">getEventsLogsByEntity</div><div class="params__meta"><span class="badge">Query</span> EventsLogsResponse</div><div class="params__desc">Args: <code>entityType: EntityType!</code>, <code>entityId: String!</code></div></div>
+              <div class="params__row"><div class="params__name">getEventsLogsStats</div><div class="params__meta"><span class="badge">Query</span> EventsLogStatsResponse</div><div class="params__desc">Aggregated stats for a filter.</div></div>
+            </div>
+
+            <h3 class="h3">Types</h3>
+            <pre class="code"><code>enum EventType { CREATE UPDATE DELETE LOGIN LOGOUT VIEW SEARCH EXPORT IMPORT OTHER }
+enum SortOrder { ASC DESC }
+
+type EventsLog {
+  logId: String!
+  eventType: EventType!
+  entityType: EntityType!
+  userId: String!
+  userEmail: String!
+  username: String!
+  description: String!
+  beforeData: JSON
+  afterData: JSON
+  changedFields: [String!]
+  createdAt: String!
+  updatedAt: String!
+}</code></pre>
+
+            <div class="callout callout--warn" style="margin-top:12px;">
+              <div class="callout__title">Schema warning</div>
+              <p class="muted" style="margin:0;">This module defines an <code>EntityType</code> enum different from the entity module. Merge carefully.</p>
+            </div>
+          </section>
+
+          <!-- Events module -->
+          <section class="doc__section" id="events">
+            <div class="sectionhead">
+              <h2 class="h2">events</h2>
+              <p class="muted">Events CRUD + RSVP. Note: defined as root Query/Mutation in the provided SDL.</p>
+            </div>
+
+            <h3 class="h3">Queries (root)</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">event</div><div class="params__meta"><span class="badge">Query</span> Event</div><div class="params__desc">Args: <code>id: ID!</code></div></div>
+              <div class="params__row"><div class="params__name">events</div><div class="params__meta"><span class="badge">Query</span> [Event!]!</div><div class="params__desc">Args: <code>limit</code>, <code>offset</code>, <code>eventScope</code></div></div>
+            </div>
+
+            <h3 class="h3">Mutations (root)</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">createEvent</div><div class="params__meta"><span class="badge">Mutation</span> Event!</div><div class="params__desc">Create an event.</div></div>
+              <div class="params__row"><div class="params__name">updateEvent</div><div class="params__meta"><span class="badge">Mutation</span> Event!</div><div class="params__desc">Update an event.</div></div>
+              <div class="params__row"><div class="params__name">deleteEvent</div><div class="params__meta"><span class="badge">Mutation</span> Boolean!</div><div class="params__desc">Delete an event.</div></div>
+              <div class="params__row"><div class="params__name">addEventAdmin</div><div class="params__meta"><span class="badge">Mutation</span> Event</div><div class="params__desc">Grant admin rights.</div></div>
+              <div class="params__row"><div class="params__name">rsvpEvent</div><div class="params__meta"><span class="badge">Mutation</span> Event</div><div class="params__desc">RSVP to an event.</div></div>
+            </div>
+
+            <h3 class="h3">Type</h3>
+            <pre class="code"><code>type Event {
+  id: ID!
+  title: String!
+  description: String
+  mode: String
+  coverImage: String
+  startDate: String!
+  endDate: String!
+  isVerified: Boolean
+  isActive: Boolean!
+  eventScope: String!
+  admins: [String]
+  followers: [String]
+}</code></pre>
+
+            <div class="callout callout--warn" style="margin-top:12px;">
+              <div class="callout__title">Merge note</div>
+              <p class="muted" style="margin:0;">Unlike most modules using <code>extend type Query</code>, this SDL declares root <code>type Query</code> and <code>type Mutation</code>. Ensure schema merging does not overwrite your main roots.</p>
+            </div>
+          </section>
+
+          <!-- Super admin module -->
+          <section class="doc__section" id="super-admin">
+            <div class="sectionhead">
+              <h2 class="h2">super-admin</h2>
+              <p class="muted">Super admin authentication + organization management.</p>
+            </div>
+
+            <h3 class="h3">Queries</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">getSuperAdminDashboardStats</div><div class="params__meta"><span class="badge">Query</span> SuperAdminDashboardStats!</div><div class="params__desc">System-level summary stats.</div></div>
+              <div class="params__row"><div class="params__name">getRecentActivities</div><div class="params__meta"><span class="badge">Query</span> [RecentActivity!]!</div><div class="params__desc">Args: <code>limit: Int = 10</code></div></div>
+              <div class="params__row"><div class="params__name">getSystemStatus</div><div class="params__meta"><span class="badge">Query</span> SystemStatus!</div><div class="params__desc">Health/status info.</div></div>
+              <div class="params__row"><div class="params__name">getOrganizationAdmins</div><div class="params__meta"><span class="badge">Query</span> OrganizationAdminsResponse!</div><div class="params__desc">Paginated admin listing.</div></div>
+              <div class="params__row"><div class="params__name">getSuperAdminSettings</div><div class="params__meta"><span class="badge">Query</span> SuperAdminSettings!</div><div class="params__desc">Settings.</div></div>
+            </div>
+
+            <h3 class="h3">Mutations</h3>
+            <div class="params">
+              <div class="params__row"><div class="params__name">superAdminLogin</div><div class="params__meta"><span class="badge">Mutation</span> SuperAdminAuthResponse!</div><div class="params__desc">Login.</div></div>
+              <div class="params__row"><div class="params__name">verifySuperAdmin2FA</div><div class="params__meta"><span class="badge">Mutation</span> SuperAdminAuthResponse!</div><div class="params__desc">2FA verify.</div></div>
+              <div class="params__row"><div class="params__name">updateSuperAdminProfile</div><div class="params__meta"><span class="badge">Mutation</span> UserResponse!</div><div class="params__desc">Update profile.</div></div>
+              <div class="params__row"><div class="params__name">createOrganization</div><div class="params__meta"><span class="badge">Mutation</span> OrganizationResponse!</div><div class="params__desc">Create organization.</div></div>
+              <div class="params__row"><div class="params__name">updateOrganization</div><div class="params__meta"><span class="badge">Mutation</span> OrganizationResponse!</div><div class="params__desc">Update organization.</div></div>
+              <div class="params__row"><div class="params__name">deleteOrganization</div><div class="params__meta"><span class="badge">Mutation</span> OrganizationResponse!</div><div class="params__desc">Delete organization.</div></div>
+              <div class="params__row"><div class="params__name">assignAdmin</div><div class="params__meta"><span class="badge">Mutation</span> OrganizationAdminResponse!</div><div class="params__desc">Assign an admin.</div></div>
+              <div class="params__row"><div class="params__name">removeAdmin</div><div class="params__meta"><span class="badge">Mutation</span> OrganizationAdminResponse!</div><div class="params__desc">Remove an admin.</div></div>
+            </div>
+
+            <div class="callout callout--warn" style="margin-top:12px;">
+              <div class="callout__title">Note</div>
+              <p class="muted" style="margin:0;">The PDF indicates this module references additional types (CreateOrganizationInput, OrganizationResponse, etc.) that may live in other typedef files.</p>
+            </div>
+          </section>
+
+          <!-- Server-side models -->
+          <section class="doc__section" id="server-side-models">
+            <div class="sectionhead">
+              <h2 class="h2">verification & invites (server-side)</h2>
+              <p class="muted">Backend-only TypeScript models/enums used for verification and invite workflows (not GraphQL operations).</p>
+            </div>
+
+            <pre class="code"><code>interface IInvite {
+  inviteId: string;
+  entityId: string;
+  slug: string;
+  status: 'pending' | 'accepted' | 'rejected';
+  email: string;
+  metadata?: IInviteMetadata;
+}
+
+enum VerificationChannel { EMAIL, SMS, LINK, ADMIN_REQUEST, EMAIL_DOMAIN, EMAIL_DATABASE }
+enum VerificationPurpose { ENTITY_JOIN, ENTITY_REQUEST, ENTITY_INVITE, ENTITY_MEMBERSHIP }
+enum VerificationStatus { PENDING, VERIFIED, EXPIRED }</code></pre>
+          </section>
         </article>
       </main>
 
