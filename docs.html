@@ -67,6 +67,9 @@
     <a class="navlink" href="#global">global</a>
     <a class="navlink" href="#address">address</a>
     <a class="navlink" href="#common">common</a>
+    <a class="navlink" href="#invite">invite</a>
+    <a class="navlink" href="#session">session</a>
+    <a class="navlink" href="#shared">shared</a>
   </div>
 </details>
 
@@ -1058,6 +1061,283 @@ input EmailDomainVerificationMetadataInput {
 }
 
 type EmailDomainVerificationResponse { success: Boolean! message: String! }</code></pre>
+          </section>
+
+          <!-- invite module -->
+          <section class="doc__section" id="invite">
+            <div class="sectionhead">
+              <h2 class="h2">invite</h2>
+            </div>
+            <h3 class="h3">types</h3>
+            <pre class="code"><code>type invite {
+    inviteid: string!
+    email: string!
+    status: string!
+    entityid: string!
+    metadata: iinvitemetadata!
+    type: string!
+    createdat: string!
+    updatedat: string!
+  }
+
+  input inviteentityuserroleinput {
+    email: string!
+    slug: string!
+    fullname: string
+    role: string
+    rollnumber: string
+    batch: string
+    type: string!
+  }
+
+  type iinvitesresponse {
+    success: boolean!
+    message: string!
+    invites: [invite!]!
+  }
+
+  type inviteentityuserroleresponse {
+    success: boolean!
+    message: string!
+    invite: invite
+  }
+
+  type invitewithentity {
+    inviteid: string!
+    email: string!
+    status: string!
+    entityid: string!
+    metadata: iinvitemetadata!
+    createdat: string!
+    updatedat: string!
+    entity: entity!
+  }
+
+  type iinvitemetadata {
+    fullname: string!
+    rollnumber: string!
+    batch: string!
+    role: string!
+    type: string!
+  }
+
+  type invitewithuser {
+    inviteid: string!
+    email: string!
+    status: string!
+    entityid: string!
+    metadata: iinvitemetadata!
+    createdat: string!
+    updatedat: string!
+    user: user!
+  }
+
+  type invitewithmetadata {
+    inviteid: string!
+    email: string!
+    status: string!
+    entityid: string!
+    metadata: iinvitemetadata!
+    createdat: string!
+    updatedat: string!
+  }
+
+  input getinvitebysluginput {
+    slug: string!
+  }
+
+  type getinvitebyslugresponse {
+    success: boolean!
+    message: string!
+    invites: [invitewithmetadata!]!
+  }
+
+  type myentityinvitesresponse {
+    success: boolean!
+    message: string!
+    invites: [invitewithentity!]!
+  }
+
+  input acceptentityinviteinput {
+    inviteid: string!
+  }
+
+  type acceptentityinviteresponse {
+    success: boolean!
+    message: string!
+    invite: invite
+  }
+
+  extend type query {
+    getmyentityinvites: myentityinvitesresponse
+    getinvitebyslug(slug: string!): getinvitebyslugresponse
+  }
+
+  extend type mutation {
+    inviteentityuserrole(input: inviteentityuserroleinput!): inviteentityuserroleresponse
+  }
+</code></pre>
+          </section>
+
+          <!-- session module -->
+          <section class="doc__section" id="session">
+            <div class="sectionhead">
+              <h2 class="h2">session</h2>
+            </div>
+            <h3 class="h3">types</h3>
+            <pre class="code"><code>type DeviceInfo {
+    userAgent: String!
+    platform: String!
+    browser: String!
+    os: String!
+    deviceType: String!
+  }
+
+  type LocationInfo {
+    ipAddress: String!
+    country: String
+    city: String
+    region: String
+  }
+
+  type Session {
+    sessionId: String!
+    deviceInfo: DeviceInfo!
+    locationInfo: LocationInfo!
+    isActive: Boolean!
+    lastActivity: String!
+    createdAt: String!
+    deviceName: String!
+  }
+
+  type SessionStats {
+    totalSessions: Int!
+    activeSessions: Int!
+    deviceTypes: [DeviceTypeCount!]!
+  }
+
+  type DeviceTypeCount {
+    type: String!
+    count: Int!
+  }
+
+  type SessionsResponse {
+    success: Boolean!
+    message: String!
+    sessions: [Session!]!
+  }
+
+  type SessionStatsResponse {
+    success: Boolean!
+    message: String!
+    stats: SessionStats!
+  }
+
+  type RevokeSessionResponse {
+    success: Boolean!
+    message: String!
+  }
+
+  extend type Query {
+    getUserSessions: SessionsResponse!
+    getSessionStats: SessionStatsResponse!
+  }
+
+  extend type Mutation {
+    revokeSession(sessionId: String!): RevokeSessionResponse!
+    revokeAllSessions: RevokeSessionResponse!
+  }
+</code></pre>
+          </section>
+
+          <!-- shared module -->
+          <section class="doc__section" id="shared">
+            <div class="sectionhead">
+              <h2 class="h2">shared</h2>
+            </div>
+            <h3 class="h3">types</h3>
+            <pre class="code"><code>type BaseResponse {
+    success: Boolean!
+    message: String!
+  }
+
+  type PaginatedResponse {
+    total: Int!
+    page: Int!
+    limit: Int!
+  }
+
+  type Department {
+    id: ID!
+    name: String!
+    code: String!
+    description: String
+    createdAt: String!
+    updatedAt: String!
+  }
+
+  type OrganizationAddress {
+    line1: String!
+    line2: String
+    city: String!
+    state: String!
+    country: String!
+    pinCode: String!
+  }
+
+  type OrganizationRole {
+    roleId: ID!
+    organizationId: String!
+    name: String!
+    description: String!
+    permissions: [String!]!
+    isDefault: Boolean!
+    createdBy: String!
+    createdAt: String!
+    updatedAt: String!
+  }
+
+  type OrganizationUserRole {
+    assignmentId: ID!
+    organizationId: String!
+    userId: ID!
+    roleId: ID!
+    departmentId: String
+    assignedBy: String!
+    isActive: Boolean!
+    createdAt: String!
+    updatedAt: String!
+  }
+
+  input DepartmentInput {
+    name: String!
+    code: String!
+    description: String
+  }
+
+  input OrganizationAddressInput {
+    line1: String!
+    line2: String
+    city: String!
+    state: String!
+    country: String!
+    pinCode: String!
+  }
+
+  input PaginationInput {
+    page: Int = 1
+    limit: Int = 10
+  }
+
+  scalar DateTime
+
+  type PageInfo {
+    hasNextPage: Boolean!
+    hasPreviousPage: Boolean!
+    startCursor: String
+    endCursor: String
+  }
+</code></pre>
           </section>
 
           <!-- Entity module -->
