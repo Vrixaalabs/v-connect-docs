@@ -8,6 +8,34 @@
   </head>
   <body>
     <div id="loader">Loading...</div>
+    <template id="inlineSection">
+      <section class="doc__section" id="alumni">
+        <div class="codepane" style="margin-top:14px;">
+          <div class="codepane__tabs">
+            <button class="tab is-active" data-lang="graphql">GraphQL</button>
+            <button class="tab" data-lang="curl">cURL</button>
+            <button class="tab" data-lang="node">Node</button>
+          </div>
+          <div class="codepane__body">
+            <pre class="code codepane__code" data-code="graphql"><code>mutation Login($email: String!, $password: String!) {
+  login(email: $email, password: $password) {
+    token
+    user { _id userId username email firstName lastName }
+  }
+}</code></pre>
+            <pre class="code codepane__code is-hidden" data-code="curl"><code>curl https://api.example.com/graphql \
+  -H "Content-Type: application/json" \
+  -d '{"query":"mutation Login($email:String!,$password:String!){ login(email:$email,password:$password){ token user{ _id userId username email } } }","variables":{"email":"ava@example.com","password":"secret"}}'</code></pre>
+            <pre class="code codepane__code is-hidden" data-code="node"><code>const res = await fetch("https://api.example.com/graphql", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ query: `mutation Login($email:String!,$password:String!){ login(email:$email,password:$password){ token user{ _id userId username email } } }`, variables: { email: "ava@example.com", password: "secret" } }),
+});
+console.log(await res.json());</code></pre>
+          </div>
+        </div>
+      </section>
+    </template>
     <script>window.DOCS_SECTION = 'alumni'</script>
     <script src="./loader.js"></script>
   </body>

@@ -58,11 +58,31 @@
     // main content: inject only the requested section inside an article.doc
     const main = document.createElement('main'); main.className = 'content';
     const article = document.createElement('article'); article.className = 'doc';
-    const sectionNode = src.getElementById(SECTION);
-    if(sectionNode){
-      article.appendChild(document.importNode(sectionNode, true));
+
+    // If the current per-page file provided an inline template, prefer it.
+    const inlineTpl = document.getElementById('inlineSection');
+    if(inlineTpl && inlineTpl.tagName.toLowerCase() === 'template'){
+      try{
+        const temp = document.createElement('div');
+        temp.innerHTML = inlineTpl.innerHTML.trim();
+        const node = temp.querySelector('section') || temp.firstElementChild;
+        if(node){
+          // ensure the injected section has the expected id for nav highlighting
+          if(!node.id) node.id = SECTION;
+          article.appendChild(node);
+        } else {
+          article.innerHTML = `<section class="doc__section"><h2 class="h2">Section '${SECTION}' not available</h2><p class="muted">Inline template found but no &lt;section&gt; content.</p></section>`;
+        }
+      }catch(e){
+        article.innerHTML = `<section class="doc__section"><h2 class="h2">Section '${SECTION}' error</h2><p class="muted">Failed to parse inline template: ${e.message}</p></section>`;
+      }
     } else {
-      article.innerHTML = `<section class="doc__section"><h2 class="h2">Section '${SECTION}' not found</h2><p class="muted">Make sure <code>id=\"${SECTION}\"</code> exists in <code>docs.html</code>.</p></section>`;
+      const sectionNode = src.getElementById(SECTION);
+      if(sectionNode){
+        article.appendChild(document.importNode(sectionNode, true));
+      } else {
+        article.innerHTML = `<section class="doc__section"><h2 class="h2">Section '${SECTION}' not found</h2><p class="muted">Make sure <code>id="${SECTION}"</code> exists in <code>docs.html</code>.</p></section>`;
+      }
     }
     main.appendChild(article);
     shell.appendChild(main);

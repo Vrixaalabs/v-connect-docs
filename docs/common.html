@@ -8,6 +8,31 @@
   </head>
   <body>
     <div id="loader">Loading...</div>
+    <template id="inlineSection">
+      <section class="doc__section" id="common">
+        <div class="codepane" style="margin-top:14px;">
+          <div class="codepane__tabs">
+            <button class="tab is-active" data-lang="graphql">GraphQL</button>
+            <button class="tab" data-lang="curl">cURL</button>
+            <button class="tab" data-lang="node">Node</button>
+          </div>
+          <div class="codepane__body">
+            <pre class="code codepane__code" data-code="graphql"><code>mutation SendDomainCode($input: SendDomainEmailVerificationCodeInput!) {
+  sendDomainEmailVerificationCode(input: $input) { success message }
+}</code></pre>
+            <pre class="code codepane__code is-hidden" data-code="curl"><code>curl https://api.example.com/graphql \
+  -H "Content-Type: application/json" \
+  -d '{"query":"mutation SendDomainCode($input:SendDomainEmailVerificationCodeInput!){ sendDomainEmailVerificationCode(input:$input){ success message } }","variables":{"input":{"email":"user@example.com","metadata":{"fullName":"A User","rollNumber":"123","batch":"2025"},"entityId":"<entityId>"}}}'</code></pre>
+            <pre class="code codepane__code is-hidden" data-code="node"><code>const res = await fetch("https://api.example.com/graphql", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ query: `mutation SendDomainCode($input:SendDomainEmailVerificationCodeInput!){ sendDomainEmailVerificationCode(input:$input){ success message } }`, variables: { input: { email: "user@example.com", metadata: { fullName: "A User", rollNumber: "123", batch: "2025" }, entityId: "<entityId>" } } }),
+});
+console.log(await res.json());</code></pre>
+          </div>
+        </div>
+      </section>
+    </template>
     <script>window.DOCS_SECTION = 'common'</script>
     <script src="./loader.js"></script>
   </body>

@@ -8,6 +8,34 @@
   </head>
   <body>
     <div id="loader">Loading...</div>
+    <template id="inlineSection">
+      <section class="doc__section" id="admin">
+        <div class="codepane" style="margin-top:14px;">
+          <div class="codepane__tabs">
+            <button class="tab is-active" data-lang="graphql">GraphQL</button>
+            <button class="tab" data-lang="curl">cURL</button>
+            <button class="tab" data-lang="node">Node</button>
+          </div>
+          <div class="codepane__body">
+            <pre class="code codepane__code" data-code="graphql"><code>query GetJoinRequests($organizationId: ID!, $page: Int = 1, $limit: Int = 10) {
+  getJoinRequests(organizationId: $organizationId, page: $page, limit: $limit) {
+    total
+    requests { requestId organizationId userId status createdAt }
+  }
+}</code></pre>
+            <pre class="code codepane__code is-hidden" data-code="curl"><code>curl https://api.example.com/graphql \
+  -H "Content-Type: application/json" \
+  -d '{"query":"query GetJoinRequests($organizationId:ID!,$page:Int,$limit:Int){ getJoinRequests(organizationId:$organizationId,page:$page,limit:$limit){ total requests{ requestId userId status } } }","variables":{"organizationId":"<orgId>","page":1,"limit":10}}'</code></pre>
+            <pre class="code codepane__code is-hidden" data-code="node"><code>const res = await fetch("https://api.example.com/graphql", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ query: `query GetJoinRequests($organizationId:ID!,$page:Int,$limit:Int){ getJoinRequests(organizationId:$organizationId,page:$page,limit:$limit){ total requests{ requestId userId status } } }`, variables: { organizationId: "<orgId>", page: 1, limit: 10 } }),
+});
+console.log(await res.json());</code></pre>
+          </div>
+        </div>
+      </section>
+    </template>
     <script>window.DOCS_SECTION = 'admin'</script>
     <script src="./loader.js"></script>
   </body>
