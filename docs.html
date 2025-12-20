@@ -264,6 +264,32 @@ type Subscription { _empty: String }</code></pre>
                 I didn’t receive your <code>userTypes = gql`...`</code> in the latest snippets, so this is a placeholder.
               </p>
             </div>
+            
+            <div class="codepane" style="margin-top:14px;">
+              <div class="codepane__tabs">
+                <button class="tab is-active" data-lang="graphql">GraphQL</button>
+                <button class="tab" data-lang="curl">cURL</button>
+                <button class="tab" data-lang="node">Node</button>
+              </div>
+
+              <div class="codepane__body">
+                <pre class="code codepane__code" data-code="graphql"><code>query Me {
+  me { _id userId username email firstName lastName }
+}</code></pre>
+
+                <pre class="code codepane__code is-hidden" data-code="curl"><code>curl https://api.example.com/graphql \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer &lt;token&gt;" \
+  -d '{"query":"query Me{ me{ _id userId username email } }"}'</code></pre>
+
+                <pre class="code codepane__code is-hidden" data-code="node"><code>const res = await fetch("https://api.example.com/graphql", {
+  method: "POST",
+  headers: { "Content-Type": "application/json", "Authorization": "Bearer <token>" },
+  body: JSON.stringify({ query: `query Me{ me{ _id userId username email } }` }),
+});
+console.log(await res.json());</code></pre>
+              </div>
+            </div>
           </section>
 
           <!-- Alumni module -->
@@ -285,6 +311,32 @@ type Subscription { _empty: String }</code></pre>
                   <div class="props__row"><div class="props__key">lastName</div><div class="props__type">String</div><div class="props__desc">Optional last name.</div></div>
                   <div class="props__row"><div class="props__key">username</div><div class="props__type">String!</div><div class="props__desc">Unique username.</div></div>
                   <div class="props__row"><div class="props__key">email</div><div class="props__type">String!</div><div class="props__desc">Email address.</div></div>
+            
+            <div class="codepane" style="margin-top:14px;">
+              <div class="codepane__tabs">
+                <button class="tab is-active" data-lang="graphql">GraphQL</button>
+                <button class="tab" data-lang="curl">cURL</button>
+                <button class="tab" data-lang="node">Node</button>
+              </div>
+
+              <div class="codepane__body">
+                <pre class="code codepane__code" data-code="graphql"><code>query MyEntityInvites {
+  getmyentityinvites { success message invites { inviteid email status entityid createdat } }
+}</code></pre>
+
+                <pre class="code codepane__code is-hidden" data-code="curl"><code>curl https://api.example.com/graphql \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer &lt;token&gt;" \
+  -d '{"query":"query MyEntityInvites{ getmyentityinvites{ success message invites{ inviteid email status } } }"}'</code></pre>
+
+                <pre class="code codepane__code is-hidden" data-code="node"><code>const res = await fetch("https://api.example.com/graphql", {
+  method: "POST",
+  headers: { "Content-Type": "application/json", "Authorization": "Bearer <token>" },
+  body: JSON.stringify({ query: `query MyEntityInvites{ getmyentityinvites{ success message invites{ inviteid email status } } }` }),
+});
+console.log(await res.json());</code></pre>
+              </div>
+            </div>
                   <div class="props__row"><div class="props__key">createdAt</div><div class="props__type">String!</div><div class="props__desc">Created timestamp.</div></div>
                   <div class="props__row"><div class="props__key">updatedAt</div><div class="props__type">String!</div><div class="props__desc">Updated timestamp.</div></div>
                 </div>
@@ -797,6 +849,33 @@ type DeleteAddressResult {
                 <div class="params__desc">Args: <code>addressId: String!</code></div>
               </div>
             </div>
+            
+            <div class="codepane" style="margin-top:14px;">
+              <div class="codepane__tabs">
+                <button class="tab is-active" data-lang="graphql">GraphQL</button>
+                <button class="tab" data-lang="curl">cURL</button>
+                <button class="tab" data-lang="node">Node</button>
+              </div>
+
+              <div class="codepane__body">
+                <pre class="code codepane__code" data-code="graphql"><code>query GetAddress($addressId: String!) {
+  getAddressById(addressId: $addressId) {
+    address { addressId addressLine city region postalCode country }
+  }
+}</code></pre>
+
+                <pre class="code codepane__code is-hidden" data-code="curl"><code>curl https://api.example.com/graphql \
+  -H "Content-Type: application/json" \
+  -d '{"query":"query GetAddress($addressId:String!){ getAddressById(addressId:$addressId){ address{ addressId addressLine city } } }","variables":{"addressId":"<addressId>"}}'</code></pre>
+
+                <pre class="code codepane__code is-hidden" data-code="node"><code>const res = await fetch("https://api.example.com/graphql", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ query: `query GetAddress($addressId:String!){ getAddressById(addressId:$addressId){ address{ addressId addressLine city } } }`, variables: { addressId: "<addressId>" } }),
+});
+console.log(await res.json());</code></pre>
+              </div>
+            </div>
           </section>
 
           <!-- Admin -->
@@ -856,6 +935,34 @@ type JoinRequestsResponse {
                 <div class="params__name">rejectJoinRequest</div>
                 <div class="params__meta"><span class="badge">Mutation</span> JoinRequestResponse!</div>
                 <div class="params__desc">Args: <code>requestId: ID!</code>, <code>reason: String!</code></div>
+              </div>
+            </div>
+
+            <div class="codepane" style="margin-top:14px;">
+              <div class="codepane__tabs">
+                <button class="tab is-active" data-lang="graphql">GraphQL</button>
+                <button class="tab" data-lang="curl">cURL</button>
+                <button class="tab" data-lang="node">Node</button>
+              </div>
+
+              <div class="codepane__body">
+                <pre class="code codepane__code" data-code="graphql"><code>query GetJoinRequests($organizationId: ID!, $page: Int = 1, $limit: Int = 10) {
+  getJoinRequests(organizationId: $organizationId, page: $page, limit: $limit) {
+    total
+    requests { requestId organizationId userId status createdAt }
+  }
+}</code></pre>
+
+                <pre class="code codepane__code is-hidden" data-code="curl"><code>curl https://api.example.com/graphql \
+  -H "Content-Type: application/json" \
+  -d '{"query":"query GetJoinRequests($organizationId:ID!,$page:Int,$limit:Int){ getJoinRequests(organizationId:$organizationId,page:$page,limit:$limit){ total requests{ requestId userId status } } }","variables":{"organizationId":"<orgId>","page":1,"limit":10}}'</code></pre>
+
+                <pre class="code codepane__code is-hidden" data-code="node"><code>const res = await fetch("https://api.example.com/graphql", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ query: `query GetJoinRequests($organizationId:ID!,$page:Int,$limit:Int){ getJoinRequests(organizationId:$organizationId,page:$page,limit:$limit){ total requests{ requestId userId status } } }`, variables: { organizationId: "<orgId>", page: 1, limit: 10 } }),
+});
+console.log(await res.json());</code></pre>
               </div>
             </div>
           </section>
@@ -968,6 +1075,34 @@ type NetworkStatsResponse {
   message: String!
   stats: NetworkStats!
 }</code></pre>
+            
+            <div class="codepane" style="margin-top:14px;">
+              <div class="codepane__tabs">
+                <button class="tab is-active" data-lang="graphql">GraphQL</button>
+                <button class="tab" data-lang="curl">cURL</button>
+                <button class="tab" data-lang="node">Node</button>
+              </div>
+
+              <div class="codepane__body">
+                <pre class="code codepane__code" data-code="graphql"><code>query FriendConnections($userId: ID!, $page: Int = 1, $limit: Int = 10) {
+  friendConnections(userId: $userId, page: $page, limit: $limit) {
+    total
+    connections { connectionId userId friendId status createdAt }
+  }
+}</code></pre>
+
+                <pre class="code codepane__code is-hidden" data-code="curl"><code>curl https://api.example.com/graphql \
+  -H "Content-Type: application/json" \
+  -d '{"query":"query FriendConnections($userId:ID!,$page:Int,$limit:Int){ friendConnections(userId:$userId,page:$page,limit:$limit){ total connections{ connectionId userId friendId status } } }","variables":{"userId":"<userId>","page":1,"limit":10}}'</code></pre>
+
+                <pre class="code codepane__code is-hidden" data-code="node"><code>const res = await fetch("https://api.example.com/graphql", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ query: `query FriendConnections($userId:ID!,$page:Int,$limit:Int){ friendConnections(userId:$userId,page:$page,limit:$limit){ total connections{ connectionId userId friendId status } } }`, variables: { userId: "<userId>", page: 1, limit: 10 } }),
+});
+console.log(await res.json());</code></pre>
+              </div>
+            </div>
           </section>
 
           <section class="doc__section" id="notes">
@@ -1061,6 +1196,31 @@ input EmailDomainVerificationMetadataInput {
 }
 
 type EmailDomainVerificationResponse { success: Boolean! message: String! }</code></pre>
+            
+            <div class="codepane" style="margin-top:14px;">
+              <div class="codepane__tabs">
+                <button class="tab is-active" data-lang="graphql">GraphQL</button>
+                <button class="tab" data-lang="curl">cURL</button>
+                <button class="tab" data-lang="node">Node</button>
+              </div>
+
+              <div class="codepane__body">
+                <pre class="code codepane__code" data-code="graphql"><code>mutation SendDomainCode($input: SendDomainEmailVerificationCodeInput!) {
+  sendDomainEmailVerificationCode(input: $input) { success message }
+}</code></pre>
+
+                <pre class="code codepane__code is-hidden" data-code="curl"><code>curl https://api.example.com/graphql \
+  -H "Content-Type: application/json" \
+  -d '{"query":"mutation SendDomainCode($input:SendDomainEmailVerificationCodeInput!){ sendDomainEmailVerificationCode(input:$input){ success message } }","variables":{"input":{"email":"user@example.com","metadata":{"fullName":"A User","rollNumber":"123","batch":"2025"},"entityId":"<entityId>"}}}'</code></pre>
+
+                <pre class="code codepane__code is-hidden" data-code="node"><code>const res = await fetch("https://api.example.com/graphql", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ query: `mutation SendDomainCode($input:SendDomainEmailVerificationCodeInput!){ sendDomainEmailVerificationCode(input:$input){ success message } }`, variables: { input: { email: "user@example.com", metadata: { fullName: "A User", rollNumber: "123", batch: "2025" }, entityId: "<entityId>" } } }),
+});
+console.log(await res.json());</code></pre>
+              </div>
+            </div>
           </section>
 
           <!-- invite module -->
@@ -1177,6 +1337,32 @@ type EmailDomainVerificationResponse { success: Boolean! message: String! }</cod
     inviteentityuserrole(input: inviteentityuserroleinput!): inviteentityuserroleresponse
   }
 </code></pre>
+            
+            <div class="codepane" style="margin-top:14px;">
+              <div class="codepane__tabs">
+                <button class="tab is-active" data-lang="graphql">GraphQL</button>
+                <button class="tab" data-lang="curl">cURL</button>
+                <button class="tab" data-lang="node">Node</button>
+              </div>
+
+              <div class="codepane__body">
+                <pre class="code codepane__code" data-code="graphql"><code>query AddressTypes {
+  __typename
+}
+</code></pre>
+
+                <pre class="code codepane__code is-hidden" data-code="curl"><code>curl https://api.example.com/graphql \
+  -H "Content-Type: application/json" \
+  -d '{"query":"query AddressTypes{ __typename }'}'</code></pre>
+
+                <pre class="code codepane__code is-hidden" data-code="node"><code>const res = await fetch("https://api.example.com/graphql", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ query: `query AddressTypes{ __typename }` }),
+});
+console.log(await res.json());</code></pre>
+              </div>
+            </div>
           </section>
 
           <!-- session module -->
@@ -1248,6 +1434,32 @@ type EmailDomainVerificationResponse { success: Boolean! message: String! }</cod
     revokeAllSessions: RevokeSessionResponse!
   }
 </code></pre>
+          
+            <div class="codepane" style="margin-top:14px;">
+              <div class="codepane__tabs">
+                <button class="tab is-active" data-lang="graphql">GraphQL</button>
+                <button class="tab" data-lang="curl">cURL</button>
+                <button class="tab" data-lang="node">Node</button>
+              </div>
+
+              <div class="codepane__body">
+                <pre class="code codepane__code" data-code="graphql"><code>query GetUserSessions {
+  getUserSessions { success message sessions { sessionId deviceName lastActivity isActive } }
+}</code></pre>
+
+                <pre class="code codepane__code is-hidden" data-code="curl"><code>curl https://api.example.com/graphql \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer &lt;token&gt;" \
+  -d '{"query":"query GetUserSessions{ getUserSessions{ success message sessions{ sessionId deviceName lastActivity isActive } } }"}'</code></pre>
+
+                <pre class="code codepane__code is-hidden" data-code="node"><code>const res = await fetch("https://api.example.com/graphql", {
+  method: "POST",
+  headers: { "Content-Type": "application/json", "Authorization": "Bearer <token>" },
+  body: JSON.stringify({ query: `query GetUserSessions{ getUserSessions{ success message sessions{ sessionId deviceName lastActivity isActive } } }` }),
+});
+console.log(await res.json());</code></pre>
+              </div>
+            </div>
           </section>
 
           <!-- shared module -->
@@ -1338,6 +1550,31 @@ type EmailDomainVerificationResponse { success: Boolean! message: String! }</cod
     endCursor: String
   }
 </code></pre>
+          
+            <div class="codepane" style="margin-top:14px;">
+              <div class="codepane__tabs">
+                <button class="tab is-active" data-lang="graphql">GraphQL</button>
+                <button class="tab" data-lang="curl">cURL</button>
+                <button class="tab" data-lang="node">Node</button>
+              </div>
+
+              <div class="codepane__body">
+                <pre class="code codepane__code" data-code="graphql"><code>query PaginatedItems($page: Int = 1, $limit: Int = 10) {
+  items(page: $page, limit: $limit) { total page limit items { id name } }
+}</code></pre>
+
+                <pre class="code codepane__code is-hidden" data-code="curl"><code>curl https://api.example.com/graphql \
+  -H "Content-Type: application/json" \
+  -d '{"query":"query PaginatedItems($page:Int,$limit:Int){ items(page:$page,limit:$limit){ total page limit items{ id name } } }","variables":{"page":1,"limit":10}}'</code></pre>
+
+                <pre class="code codepane__code is-hidden" data-code="node"><code>const res = await fetch("https://api.example.com/graphql", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ query: `query PaginatedItems($page:Int,$limit:Int){ items(page:$page,limit:$limit){ total page limit items{ id name } } }`, variables: { page: 1, limit: 10 } }),
+});
+console.log(await res.json());</code></pre>
+              </div>
+            </div>
           </section>
 
           <!-- Entity module -->
