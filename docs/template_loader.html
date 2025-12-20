@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Docs - {SECTION}</title>
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+      .top-nav{padding:12px;background:#f6f6f6;border-bottom:1px solid #e6e6e6}
+      .top-nav a{margin-right:12px}
+      main{padding:24px;max-width:1100px;margin:0 auto}
+    </style>
+  </head>
+  <body>
+    <div class="top-nav">
+      <a href="./index.html">Index</a>
+      <a href="./alumni.html">alumni</a>
+      <a href="./messages.html">messages</a>
+      <a href="./group-chat.html">group-chat</a>
+      <a href="./events.html">events</a>
+      <a href="./events-log.html">events-log</a>
+      <a href="./entity.html">entity</a>
+      <a href="./entity-invites.html">entity-invites</a>
+      <a href="./entity-chat.html">entity-chat</a>
+      <a href="./network.html">network</a>
+      <a href="./network-admin.html">network-admin</a>
+      <a href="./organization.html">organization</a>
+      <a href="./admin.html">admin</a>
+      <a href="./connections.html">connections</a>
+      <a href="./address.html">address</a>
+      <a href="./invite.html">invite</a>
+      <a href="./session.html">session</a>
+      <a href="./shared.html">shared</a>
+      <a href="./global.html">global</a>
+      <a href="./common.html">common</a>
+      <a href="./user.html">user</a>
+      <a href="./super-admin.html">super-admin</a>
+    </div>
+
+    <main id="content">
+      <p>Loading...</p>
+    </main>
+
+    <script>
+      (function(){
+        const section = location.pathname.split('/').pop().replace('.html','');
+        async function load(){
+          try{
+            const res = await fetch('../docs.html');
+            const text = await res.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(text, 'text/html');
+            const sec = doc.getElementById(section);
+            const content = document.getElementById('content');
+            if(sec){
+              // import node into this document
+              content.innerHTML = '';
+              content.appendChild(document.importNode(sec, true));
+            } else {
+              content.innerHTML = '<p>Section "' + section + '" not found in docs.html</p>';
+            }
+          }catch(err){
+            document.getElementById('content').innerHTML = '<p>Error loading docs.html: '+err.message+'</p>';
+          }
+        }
+        load();
+      })();
+    </script>
+    <script src="../app.js"></script>
+  </body>
+</html>

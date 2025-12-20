@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Docs Index</title>
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body>
+    <div id="loader">Loading docs...</div>
+
+    <script>window.DOCS_SECTION = 'intro'</script>
+    <script src="./loader.js"></script>
+
+    <script>
+      // After loader builds the page, append a polished index section under the main article
+      (function appendIndex(){
+        function tryAppend(){
+          const article = document.querySelector('article.doc');
+          if(!article) return setTimeout(tryAppend, 120);
+
+          const sec = document.createElement('section');
+          sec.className = 'doc__section pages-index';
+          sec.innerHTML = `
+            <style>
+              .pages-index .sectionhead {margin-bottom:12px}
+              .pages-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:12px}
+              .page-card {background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));border-radius:12px;border:1px solid var(--border);box-shadow: var(--shadow);overflow:hidden;display:flex;flex-direction:column;transition:transform .15s ease,box-shadow .15s ease}
+              .page-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(0,0,0,.45)}
+              .page-card__head{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.03);font-weight:700;color:var(--text);background: linear-gradient(180deg, rgba(255,255,255,.02), transparent)}
+              .page-card__list{padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+              .page-link{color:var(--color-link,#1a73e8);text-decoration:none;padding:8px 10px;border-radius:6px}
+              .page-link:hover{background:rgba(26,115,232,0.06)}
+              .page-chip{display:inline-block;padding:6px 8px;background:rgba(0,0,0,0.04);border-radius:6px;font-size:13px}
+            </style>
+
+            <div class="sectionhead">
+              <h2 class="h2">Pages</h2>
+              <p class="muted">Quick links to module pages. Click a card or any link to open the module.</p>
+            </div>
+
+            <div class="pages-grid">
+              <div class="page-card">
+                <div class="page-card__head">Core Modules</div>
+                <div class="page-card__list">
+                  <a class="page-link" href="./alumni.html">alumni</a>
+                  <a class="page-link" href="./messages.html">messages</a>
+                  <a class="page-link" href="./group-chat.html">group-chat</a>
+                  <a class="page-link" href="./events.html">events</a>
+                  <a class="page-link" href="./events-log.html">events-log</a>
+                  <a class="page-link" href="./entity.html">entity</a>
+                </div>
+              </div>
+
+              <div class="page-card">
+                <div class="page-card__head">Organization & Network</div>
+                <div class="page-card__list">
+                  <a class="page-link" href="./organization.html">organization</a>
+                  <a class="page-link" href="./admin.html">admin</a>
+                  <a class="page-link" href="./network.html">network</a>
+                  <a class="page-link" href="./network-admin.html">network-admin</a>
+                  <a class="page-link" href="./entity-invites.html">entity-invites</a>
+                  <a class="page-link" href="./entity-chat.html">entity-chat</a>
+                </div>
+              </div>
+
+              <div class="page-card">
+                <div class="page-card__head">Utilities & Shared</div>
+                <div class="page-card__list">
+                  <a class="page-link" href="./connections.html">connections</a>
+                  <a class="page-link" href="./address.html">address</a>
+                  <a class="page-link" href="./invite.html">invite</a>
+                  <a class="page-link" href="./session.html">session</a>
+                  <a class="page-link" href="./shared.html">shared</a>
+                  <a class="page-link" href="./global.html">global</a>
+                </div>
+              </div>
+
+              <div class="page-card">
+                <div class="page-card__head">Developer / Admin</div>
+                <div class="page-card__list">
+                  <a class="page-link" href="./common.html">common</a>
+                  <a class="page-link" href="./user.html">user</a>
+                  <a class="page-link" href="./super-admin.html">super-admin</a>
+                  <a class="page-link" href="./server-side-models.html">server-side-models</a>
+                </div>
+              </div>
+            </div>
+          `;
+
+          article.appendChild(sec);
+        }
+        tryAppend();
+      })();
+    </script>
+  </body>
+</html>
